@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "sourceMap": true,
+    "module": "es2022",
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "types": ["vite/client"],
+    "lib": ["DOM", "DOM.Iterable", "esnext"],
+    "jsx": "react-jsx"
+  },
+  "include": ["vite.config.*", "src"]
+}

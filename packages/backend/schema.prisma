@@ -1,0 +1,43 @@
+generator cleint {
+  provider = "prisma-client-js"
+  output   = "./src/__generated__/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URI")
+}
+
+model User {
+  id         Int             @id @default(autoincrement())
+  email      String          @unique
+  name       String?
+  namedLists TodoDayList[]
+  dayLists   TodoNamedList[]
+}
+
+model TodoNamedList {
+  id        Int      @id @default(autoincrement())
+  title     String
+  items     Json[]
+  userId    Int
+  updatedAt DateTime @updatedAt
+  orderBy   Int
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, orderBy])
+  @@index([userId])
+}
+
+model TodoDayList {
+  id        Int      @id @default(autoincrement())
+  items     Json[]
+  userId    Int
+  updatedAt DateTime @updatedAt
+  day       String
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, day])
+  @@index([userId])
+  @@index([day])
+}

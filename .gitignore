@@ -11,3 +11,7 @@
 
 #!.yarn/cache
 .pnp.*
+
+**/.env
+**/dist/
+**/__generated__/

@@ -1,0 +1,12 @@
+version: "3.1"
+
+services:
+  pg:
+    image: postgres:14
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: refast
+      POSTGRES_USER: refast-admin
+      POSTGRES_PASSWORD: refast-pass
