@@ -32,20 +32,15 @@ export const calendarSlice = createSlice({
   reducers: {
     setWindowSize: (state, action: PayloadAction<number>) => {
       const nextWindow = toWindow(state.window.current, action.payload);
-      if (isRangeWithin(nextWindow.show, state.window.data)) {
-        state.window.size = action.payload;
-      } else {
-        state.window = nextWindow;
-      }
+      state.window = isRangeWithin(nextWindow.show, state.window.data)
+        ? { ...state.window, size: action.payload }
+        : nextWindow;
     },
     setWindowCurrent: (state, action: PayloadAction<number>) => {
       const nextWindow = toWindow(action.payload, state.window.size);
-      if (isRangeWithin(nextWindow.show, state.window.data)) {
-        state.window.show = nextWindow.show;
-        state.window.current = nextWindow.current;
-      } else {
-        state.window = nextWindow;
-      }
+      state.window = isRangeWithin(nextWindow.show, state.window.data)
+        ? { ...state.window, show: nextWindow.show, current: nextWindow.current }
+        : nextWindow;
     },
     showDayicker: (state) => {
       state.dayPickerShown = true;

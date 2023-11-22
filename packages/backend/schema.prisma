@@ -1,19 +1,10 @@
 generator cleint {
   provider = "prisma-client-js"
-  output   = "./src/__generated__/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("POSTGRES_URI")
-}
-
-model User {
-  id         Int             @id @default(autoincrement())
-  email      String          @unique
-  name       String?
-  namedLists TodoDayList[]
-  dayLists   TodoNamedList[]
 }
 
 model TodoNamedList {
@@ -40,4 +31,32 @@ model TodoDayList {
   @@unique([userId, day])
   @@index([userId])
   @@index([day])
+}
+
+model Authenticator {
+  id                   Int      @id @default(autoincrement())
+  credentialID         String
+  credentialPublicKey  Bytes
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  counter              BigInt
+  transports           String[]
+
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([credentialID])
+}
+
+model User {
+  id               Int      @id @default(autoincrement())
+  email            String   
+  name             String   
+  challenge        String   @default("-")
+  image            String?
+  authenticators   Authenticator[]
+
+  namedLists TodoDayList[]
+  dayLists   TodoNamedList[]
+
+  @@unique([email])
 }

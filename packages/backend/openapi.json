@@ -8,18 +8,842 @@
     "schemas": {}
   },
   "paths": {
-    "/named-lists": {
-      "get": {
-        "parameters": [
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "query",
-            "name": "userId",
-            "required": true
+    "/auth/registration": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "format": "email",
+                    "minLength": 3,
+                    "maxLength": 100,
+                    "type": "string"
+                  },
+                  "name": {
+                    "minLength": 3,
+                    "maxLength": 100,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email",
+                  "name"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "response": {
+                      "type": "object",
+                      "properties": {
+                        "rp": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "name"
+                          ]
+                        },
+                        "user": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "displayName": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "displayName"
+                          ]
+                        },
+                        "challenge": {
+                          "type": "string"
+                        },
+                        "pubKeyCredParams": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "alg": {
+                                "type": "number"
+                              },
+                              "type": {
+                                "type": "string",
+                                "enum": [
+                                  "public-key"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "alg",
+                              "type"
+                            ]
+                          }
+                        },
+                        "timeout": {
+                          "type": "number"
+                        },
+                        "excludeCredentials": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string",
+                                "enum": [
+                                  "public-key"
+                                ]
+                              },
+                              "transports": {
+                                "type": "array",
+                                "items": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "ble"
+                                      ]
+                                    },
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "cable"
+                                      ]
+                                    },
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "hybrid"
+                                      ]
+                                    },
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "internal"
+                                      ]
+                                    },
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "nfc"
+                                      ]
+                                    },
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "smart-card"
+                                      ]
+                                    },
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "usb"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "type"
+                            ]
+                          }
+                        },
+                        "authenticatorSelection": {
+                          "type": "object",
+                          "properties": {
+                            "authenticatorAttachment": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "cross-platform"
+                                  ]
+                                },
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "platform"
+                                  ]
+                                }
+                              ]
+                            },
+                            "requireResidentKey": {
+                              "type": "boolean"
+                            },
+                            "residentKey": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "discouraged"
+                                  ]
+                                },
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "preferred"
+                                  ]
+                                },
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "required"
+                                  ]
+                                }
+                              ]
+                            },
+                            "userVerification": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "discouraged"
+                                  ]
+                                },
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "preferred"
+                                  ]
+                                },
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "required"
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "attestation": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "enum": [
+                                "direct"
+                              ]
+                            },
+                            {
+                              "type": "string",
+                              "enum": [
+                                "enterprise"
+                              ]
+                            },
+                            {
+                              "type": "string",
+                              "enum": [
+                                "indirect"
+                              ]
+                            },
+                            {
+                              "type": "string",
+                              "enum": [
+                                "none"
+                              ]
+                            }
+                          ]
+                        },
+                        "extensions": {
+                          "type": "object",
+                          "properties": {
+                            "appid": {
+                              "type": "string"
+                            },
+                            "credProps": {
+                              "type": "boolean"
+                            },
+                            "hmacCreateSecret": {
+                              "type": "boolean"
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "rp",
+                        "user",
+                        "challenge",
+                        "pubKeyCredParams"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "response"
+                  ]
+                }
+              }
+            }
           }
-        ],
+        }
+      }
+    },
+    "/auth/registration/verification": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "response": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "rawId": {
+                        "type": "string"
+                      },
+                      "response": {
+                        "type": "object",
+                        "properties": {
+                          "clientDataJSON": {
+                            "type": "string"
+                          },
+                          "attestationObject": {
+                            "type": "string"
+                          },
+                          "authenticatorData": {
+                            "type": "string"
+                          },
+                          "transports": {
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "ble"
+                                  ]
+                                },
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "cable"
+                                  ]
+                                },
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "hybrid"
+                                  ]
+                                },
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "internal"
+                                  ]
+                                },
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "nfc"
+                                  ]
+                                },
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "smart-card"
+                                  ]
+                                },
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "usb"
+                                  ]
+                                }
+                              ]
+                            }
+                          },
+                          "publicKeyAlgorithm": {
+                            "type": "number"
+                          },
+                          "publicKey": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "clientDataJSON",
+                          "attestationObject"
+                        ]
+                      },
+                      "authenticatorAttachment": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "enum": [
+                              "cross-platform"
+                            ]
+                          },
+                          {
+                            "type": "string",
+                            "enum": [
+                              "platform"
+                            ]
+                          }
+                        ]
+                      },
+                      "clientExtensionResults": {
+                        "type": "object",
+                        "properties": {
+                          "appid": {
+                            "type": "boolean"
+                          },
+                          "credProps": {
+                            "type": "object",
+                            "properties": {
+                              "rk": {
+                                "type": "boolean"
+                              }
+                            }
+                          },
+                          "hmacCreateSecret": {
+                            "type": "boolean"
+                          }
+                        }
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "public-key"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "rawId",
+                      "response",
+                      "clientExtensionResults",
+                      "type"
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "response"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "verified": {
+                          "type": "boolean",
+                          "enum": [
+                            true
+                          ]
+                        },
+                        "token": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "verified",
+                        "token",
+                        "name",
+                        "email"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "verified": {
+                          "type": "boolean",
+                          "enum": [
+                            false
+                          ]
+                        }
+                      },
+                      "required": [
+                        "verified"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/authentication": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "response": {
+                      "type": "object",
+                      "properties": {
+                        "challenge": {
+                          "type": "string"
+                        },
+                        "timeout": {
+                          "type": "number"
+                        },
+                        "rpId": {
+                          "type": "string"
+                        },
+                        "allowCredentials": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string",
+                                "enum": [
+                                  "public-key"
+                                ]
+                              },
+                              "transports": {
+                                "type": "array",
+                                "items": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "ble"
+                                      ]
+                                    },
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "cable"
+                                      ]
+                                    },
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "hybrid"
+                                      ]
+                                    },
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "internal"
+                                      ]
+                                    },
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "nfc"
+                                      ]
+                                    },
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "smart-card"
+                                      ]
+                                    },
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "usb"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "type"
+                            ]
+                          }
+                        },
+                        "userVerification": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "enum": [
+                                "discouraged"
+                              ]
+                            },
+                            {
+                              "type": "string",
+                              "enum": [
+                                "preferred"
+                              ]
+                            },
+                            {
+                              "type": "string",
+                              "enum": [
+                                "required"
+                              ]
+                            }
+                          ]
+                        },
+                        "extensions": {
+                          "type": "object",
+                          "properties": {
+                            "appid": {
+                              "type": "string"
+                            },
+                            "credProps": {
+                              "type": "boolean"
+                            },
+                            "hmacCreateSecret": {
+                              "type": "boolean"
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "challenge"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "response"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/authentication/verification": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "response": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "rawId": {
+                        "type": "string"
+                      },
+                      "response": {
+                        "type": "object",
+                        "properties": {
+                          "clientDataJSON": {
+                            "type": "string"
+                          },
+                          "authenticatorData": {
+                            "type": "string"
+                          },
+                          "signature": {
+                            "type": "string"
+                          },
+                          "userHandle": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "clientDataJSON",
+                          "authenticatorData",
+                          "signature"
+                        ]
+                      },
+                      "authenticatorAttachment": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "enum": [
+                              "cross-platform"
+                            ]
+                          },
+                          {
+                            "type": "string",
+                            "enum": [
+                              "platform"
+                            ]
+                          }
+                        ]
+                      },
+                      "clientExtensionResults": {
+                        "type": "object",
+                        "properties": {
+                          "appid": {
+                            "type": "boolean"
+                          },
+                          "credProps": {
+                            "type": "object",
+                            "properties": {
+                              "rk": {
+                                "type": "boolean"
+                              }
+                            }
+                          },
+                          "hmacCreateSecret": {
+                            "type": "boolean"
+                          }
+                        }
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "public-key"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "rawId",
+                      "response",
+                      "clientExtensionResults",
+                      "type"
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "response"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "verified": {
+                          "type": "boolean",
+                          "enum": [
+                            true
+                          ]
+                        },
+                        "token": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "verified",
+                        "token",
+                        "name",
+                        "email"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "verified": {
+                          "type": "boolean",
+                          "enum": [
+                            false
+                          ]
+                        }
+                      },
+                      "required": [
+                        "verified"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/named-lists/": {
+      "get": {
         "responses": {
           "200": {
             "description": "Default Response",
@@ -110,16 +934,6 @@
           },
           "required": true
         },
-        "parameters": [
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "query",
-            "name": "userId",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "TodoNamedList",
@@ -169,14 +983,6 @@
     "/named-lists/{id}": {
       "get": {
         "parameters": [
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "query",
-            "name": "userId",
-            "required": true
-          },
           {
             "schema": {
               "type": "number"
@@ -280,14 +1086,6 @@
             "schema": {
               "type": "number"
             },
-            "in": "query",
-            "name": "userId",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "number"
-            },
             "in": "path",
             "name": "id",
             "required": true
@@ -344,14 +1142,6 @@
             "schema": {
               "type": "number"
             },
-            "in": "query",
-            "name": "userId",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "number"
-            },
             "in": "path",
             "name": "id",
             "required": true
@@ -403,17 +1193,9 @@
         }
       }
     },
-    "/day-lists": {
+    "/day-lists/": {
       "get": {
         "parameters": [
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "query",
-            "name": "userId",
-            "required": true
-          },
           {
             "schema": {
               "format": "date",
@@ -521,16 +1303,6 @@
           },
           "required": true
         },
-        "parameters": [
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "query",
-            "name": "userId",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "TodoDayList",
@@ -581,14 +1353,6 @@
     "/day-lists/{id}": {
       "get": {
         "parameters": [
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "query",
-            "name": "userId",
-            "required": true
-          },
           {
             "schema": {
               "type": "number"
@@ -694,14 +1458,6 @@
             "schema": {
               "type": "number"
             },
-            "in": "query",
-            "name": "userId",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "number"
-            },
             "in": "path",
             "name": "id",
             "required": true
@@ -755,14 +1511,6 @@
       },
       "delete": {
         "parameters": [
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "query",
-            "name": "userId",
-            "required": true
-          },
           {
             "schema": {
               "type": "number"

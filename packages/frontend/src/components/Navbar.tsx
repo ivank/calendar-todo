@@ -4,6 +4,7 @@ import { setWindowCurrent } from '../store/calendar.slice';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import classNames from 'classnames';
+import { Link } from 'react-router-dom';
 
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -29,14 +30,16 @@ export const Navbar = () => {
 
   return (
     <nav className="bg-gray-800">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex-shrink-0">
-            <img
-              className="h-8 w-8"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-              alt="Your Company"
-            />
+            <Link to="/">
+              <img
+                className="h-8 w-8"
+                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                alt="Your Company"
+              />
+            </Link>
           </div>
           <div className="flex items-center">
             <div className="hidden md:block">

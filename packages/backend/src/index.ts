@@ -1,5 +1,5 @@
-import { setupApp } from './app';
-import './load-formats';
+import { setupApp } from './app.js';
+import './load-formats.js';
 
 (async () => {
   const app = await setupApp();

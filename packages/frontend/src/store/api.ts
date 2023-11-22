@@ -8,9 +8,14 @@ export const updateWithId =
       items[index] = value;
     }
   };
+export const add =
+  <T extends { id: number }>(value: T) =>
+  (items: T[]) => {
+    items.push(value);
+  };
 
 export const api = apiGenerated.enhanceEndpoints({
-  addTagTypes: ['User'],
+  addTagTypes: ['DayList', 'NamedList'],
   endpoints: {
     patchDayListsById: {
       async onQueryStarted({ body }, { dispatch, queryFulfilled }) {
@@ -24,5 +29,8 @@ export const api = apiGenerated.enhanceEndpoints({
         queryFulfilled.catch(patchResult.undo);
       },
     },
+    getNamedLists: { providesTags: ['NamedList'] },
+    postNamedLists: { invalidatesTags: ['NamedList'] },
+    deleteNamedListsById: { invalidatesTags: ['NamedList'] },
   },
 });

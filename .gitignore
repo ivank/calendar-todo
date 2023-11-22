@@ -15,3 +15,4 @@
 **/.env
 **/dist/
 **/__generated__/
+node_modules/
