@@ -8,7 +8,7 @@ import { exec } from 'node:child_process';
 const execAsync = promisify(exec);
 
 export const toTestEnv = (id: number, customEnv?: Partial<EnvType>): EnvType => ({
-  POSTGRES_URI: `postgresql://refast-admin:refast-pass@localhost:5432/refast_test_${id}`,
+  DATABASE_URL: `postgresql://refast-admin:refast-pass@localhost:5432/refast_test_${id}`,
   PORT: String(id),
   HOST: 'localhost',
   ORIGIN: '*',

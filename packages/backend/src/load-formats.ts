@@ -4,6 +4,8 @@ import { FormatRegistry } from '@sinclair/typebox';
 // Format Registration
 // -------------------------------------------------------------------------------------------
 FormatRegistry.Set('date', (value) => IsDate(value));
+FormatRegistry.Set('uri', (value) => URI.test(value));
+FormatRegistry.Set('email', (value) => EMAIL.test(value));
 
 // -------------------------------------------------------------------------------------------
 // https://github.com/ajv-validator/ajv-formats/blob/master/src/formats.ts
@@ -22,3 +24,7 @@ function IsDate(str: string): boolean {
   const day: number = +matches[3];
   return month >= 1 && month <= 12 && day >= 1 && day <= (month === 2 && IsLeapYear(year) ? 29 : DAYS[month]);
 }
+
+const URI = /^(?:[a-z][a-z0-9+\-.]*:)(?:\/?\/)?[^\s]*$/i;
+const EMAIL =
+  /^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)*$/i;

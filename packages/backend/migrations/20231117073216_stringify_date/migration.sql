@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "TodoDayList" ALTER COLUMN "day" SET DATA TYPE TEXT;

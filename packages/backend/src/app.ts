@@ -24,7 +24,7 @@ const toPrismaLogLevels = (minLevel: 'query' | 'info' | 'warn' | 'error') => {
 };
 
 export const setupApp = async (env: EnvType) => {
-  const prisma = new PrismaClient({ log: toPrismaLogLevels(env.LOG_LEVEL), datasourceUrl: env.POSTGRES_URI });
+  const prisma = new PrismaClient({ log: toPrismaLogLevels(env.LOG_LEVEL), datasourceUrl: env.DATABASE_URL });
 
   const app = fastify({
     logger: {
