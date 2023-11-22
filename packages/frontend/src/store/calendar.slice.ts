@@ -3,7 +3,7 @@ import { toEpoch } from '../helpers';
 
 export type Range = [from: number, to: number];
 export type Window = { size: number; show: Range; data: Range; current: number };
-const isRangeWithin = (range: Range, within: Range): boolean => range[0] >= within[0] && range[1] <= within[1];
+export const isRangeWithin = (range: Range, within: Range): boolean => range[0] >= within[0] && range[1] <= within[1];
 
 export interface CalendarState {
   window: Window;

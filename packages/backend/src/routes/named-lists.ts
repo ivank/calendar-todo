@@ -69,7 +69,7 @@ export const namedLists: FastifyPluginAsync<{ prisma: PrismaClient }> = async (a
     .patch(
       '/:id',
       {
-        schema: { params: IdPath, body: NamedList, response: { 200: NamedList } },
+        schema: { params: IdPath, body: NamedListData, response: { 200: NamedList } },
         onRequest: async (req) => await req.jwtVerify(),
       },
       async ({ user, body: data, params: { id } }, res) => {

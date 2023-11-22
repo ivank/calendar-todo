@@ -72,7 +72,7 @@ export const dayLists: FastifyPluginAsync<{ prisma: PrismaClient }> = async (app
     .patch(
       '/:id',
       {
-        schema: { params: IdPath, body: DayList, response: { 200: DayList } },
+        schema: { params: IdPath, body: DayListData, response: { 200: DayList } },
         onRequest: async (req) => await req.jwtVerify(),
       },
       async ({ user, body: data, params: { id } }, res) => {

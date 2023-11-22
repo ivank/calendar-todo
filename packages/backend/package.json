@@ -7,8 +7,10 @@
     "dotenv-cli": "^7.3.0",
     "fastify-tsconfig": "^2.0.0",
     "pino-pretty": "^10.2.3",
+    "prisma": "^5.6.0",
     "ts-node": "^10.9.1",
-    "typescript": "^5.0.2"
+    "typescript": "^5.0.2",
+    "vitest": "^0.34.6"
   },
   "dependencies": {
     "@fastify/cors": "^8.4.1",
@@ -20,13 +22,16 @@
     "@sinclair/typebox": "^0.31.25",
     "fastify": "^4.17.0",
     "fastify-plugin": "^4.5.1",
-    "fastify-prisma-client": "^6.0.0",
-    "prisma": "^5.6.0"
+    "fastify-prisma-client": "^6.0.0"
+  },
+  "prisma": {
+    "seed": "ts-node src/seed.ts"
   },
   "scripts": {
     "prisma": "dotenv -- yarn pnpify prisma",
     "build:api": "ts-node src/generate-openapi.ts",
     "build": "pnpify prisma generate --no-engine && tsc",
+    "test": "vitest",
     "dev": "dotenv -- ts-node src/index.ts"
   },
   "version": "1.0.0",

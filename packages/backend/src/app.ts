@@ -3,12 +3,12 @@ import swagger from '@fastify/swagger';
 import cors from '@fastify/cors';
 import { PrismaClient } from '@prisma/client';
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
-import { Value } from '@sinclair/typebox/value';
 import { auth } from './routes/auth.js';
-import { Env } from './env.js';
+import { EnvType } from './env.js';
 import { namedLists } from './routes/named-lists.js';
 import { dayLists } from './routes/day-lists.js';
 import fastifyJwt from '@fastify/jwt';
+import './load-formats.js';
 
 declare module '@fastify/jwt' {
   interface FastifyJWT {
@@ -17,9 +17,14 @@ declare module '@fastify/jwt' {
   }
 }
 
-export const setupApp = async () => {
-  const env = Value.Decode(Env, process.env);
-  const prisma = new PrismaClient({ log: ['query', 'info', 'warn', 'error'] });
+const toPrismaLogLevels = (minLevel: 'query' | 'info' | 'warn' | 'error') => {
+  const levels = ['error', 'warn', 'info', 'query'] as const;
+  const minLevelIndex = levels.findIndex((level) => level === minLevel);
+  return levels.slice(0, minLevelIndex);
+};
+
+export const setupApp = async (env: EnvType) => {
+  const prisma = new PrismaClient({ log: toPrismaLogLevels(env.LOG_LEVEL), datasourceUrl: env.POSTGRES_URI });
 
   const app = fastify({
     logger: {

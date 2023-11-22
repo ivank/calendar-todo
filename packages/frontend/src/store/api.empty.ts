@@ -7,7 +7,7 @@ export const apiEmpty = createApi({
     baseUrl: import.meta.env.VITE_BACKEND_API,
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
-      const user = (getState() as RootState).auth.user;
+      const user = (getState() as RootState).auth?.user;
       if (user?.token) {
         headers.set('authorization', `Bearer ${user.token}`);
       }
