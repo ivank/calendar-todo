@@ -10,8 +10,6 @@ import { PrismaClient } from '@prisma/client';
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import { EnvType } from '../env.js';
 
-const authRp = { rpID: 'localhost', rpName: 'Calendar Todo', origin: 'http://localhost' };
-
 const AuthenticatorTransportFuture = Type.Union([
   Type.Literal('ble'),
   Type.Literal('cable'),
@@ -147,6 +145,8 @@ const AuthenticationVerificationResponse = Type.Union([
 ]);
 
 export const auth: FastifyPluginAsync<{ prisma: PrismaClient; env: EnvType }> = async (app, { env, prisma }) => {
+  const authRp = { rpID: new URL(env.ORIGIN).hostname, rpName: 'Calendar Todo', origin: env.ORIGIN };
+
   app
     .withTypeProvider<TypeBoxTypeProvider & { input: unknown }>()
 

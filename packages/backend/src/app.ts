@@ -9,6 +9,7 @@ import { namedLists } from './routes/named-lists.js';
 import { dayLists } from './routes/day-lists.js';
 import fastifyJwt from '@fastify/jwt';
 import './load-formats.js';
+import { wellKnown } from './routes/well-known.js';
 
 declare module '@fastify/jwt' {
   interface FastifyJWT {
@@ -38,6 +39,7 @@ export const setupApp = async (env: EnvType) => {
 
   // Routes
   // ========================================================
+  await app.register(wellKnown, { prefix: '/.well-known' });
   await app.register(auth, { prisma, env, prefix: '/auth' });
   await app.register(namedLists, { prisma, prefix: '/named-lists' });
   await app.register(dayLists, { prisma, prefix: '/day-lists' });

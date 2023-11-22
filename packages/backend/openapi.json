@@ -8,6 +8,39 @@
     "schemas": {}
   },
   "paths": {
+    "/.well-known/health-check": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "healthy": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "healthy"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/.well-known/openapi.json": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
     "/auth/registration": {
       "post": {
         "requestBody": {
@@ -1042,7 +1075,6 @@
           "content": {
             "application/json": {
               "schema": {
-                "description": "TodoNamedList",
                 "type": "object",
                 "properties": {
                   "title": {
@@ -1065,21 +1097,16 @@
                         "text"
                       ]
                     }
-                  },
-                  "id": {
-                    "type": "number"
                   }
                 },
                 "required": [
                   "title",
-                  "items",
-                  "id"
+                  "items"
                 ]
               }
             }
           },
-          "required": true,
-          "description": "TodoNamedList"
+          "required": true
         },
         "parameters": [
           {
@@ -1413,7 +1440,6 @@
           "content": {
             "application/json": {
               "schema": {
-                "description": "TodoDayList",
                 "type": "object",
                 "properties": {
                   "day": {
@@ -1437,21 +1463,16 @@
                         "text"
                       ]
                     }
-                  },
-                  "id": {
-                    "type": "number"
                   }
                 },
                 "required": [
                   "day",
-                  "items",
-                  "id"
+                  "items"
                 ]
               }
             }
           },
-          "required": true,
-          "description": "TodoDayList"
+          "required": true
         },
         "parameters": [
           {

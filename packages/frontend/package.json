@@ -9,6 +9,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "build:api": "npx @rtk-query/codegen-openapi openapi-config.cjs",
+    "build:deploy": "VITE_BACKEND_API=https://calendar-todo.fly.dev/ vite build",
     "test": "vitest"
   },
   "dependencies": {
