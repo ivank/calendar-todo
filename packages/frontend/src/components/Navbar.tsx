@@ -5,6 +5,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
+import logoSvg from '../assets/logo.svg';
 
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -29,16 +30,12 @@ export const Navbar = () => {
   const prevScreen = setWindowCurrent(window.current - window.size);
 
   return (
-    <nav className="bg-gray-800">
+    <nav className="bg-darkpurple-400">
       <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-14 items-center justify-between">
           <div className="flex-shrink-0">
             <Link to="/">
-              <img
-                className="h-8 w-8"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                alt="Your Company"
-              />
+              <img className="h-10" src={logoSvg} alt="Calendar Todo" />
             </Link>
           </div>
           <div className="flex items-center">
