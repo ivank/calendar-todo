@@ -144,6 +144,8 @@ const AuthenticationVerificationResponse = Type.Union([
   Type.Object({ verified: Type.Literal(false) }),
 ]);
 
+const HttpError = Type.Object({ message: Type.String() });
+
 export const auth: FastifyPluginAsync<{ prisma: PrismaClient; env: EnvType }> = async (app, { env, prisma }) => {
   const authRp = { rpID: new URL(env.ORIGIN).hostname, rpName: 'Calendar Todo', origin: env.ORIGIN };
 
@@ -156,6 +158,10 @@ export const auth: FastifyPluginAsync<{ prisma: PrismaClient; env: EnvType }> = 
       '/registration',
       { schema: { body: RegistrationRequest, response: { 200: RegistrationResponse } } },
       async ({ body }, res) => {
+        const user = await prisma.user.findFirst({ select: { id: true }, where: { email: body.email } });
+        if (user) {
+          throw new Error('User already registered with this email');
+        }
         const { id } = await prisma.user.create({ select: { id: true }, data: body });
         const response = await generateRegistrationOptions({
           ...authRp,
@@ -209,7 +215,12 @@ export const auth: FastifyPluginAsync<{ prisma: PrismaClient; env: EnvType }> = 
     // =======================================
     .post(
       '/authentication',
-      { schema: { body: AuthenticationRequest, response: { 200: AuthenticationResponse } } },
+      {
+        schema: {
+          body: AuthenticationRequest,
+          response: { 200: AuthenticationResponse, 404: HttpError, 401: HttpError },
+        },
+      },
       async ({ body }, res) => {
         const { id, authenticators } = await prisma.user.findFirstOrThrow({
           select: { id: true, authenticators: { select: { credentialID: true, transports: true } } },
@@ -230,7 +241,12 @@ export const auth: FastifyPluginAsync<{ prisma: PrismaClient; env: EnvType }> = 
     )
     .post(
       '/authentication/verification',
-      { schema: { body: AuthenticationVerificationRequest, response: { 200: AuthenticationVerificationResponse } } },
+      {
+        schema: {
+          body: AuthenticationVerificationRequest,
+          response: { 200: AuthenticationVerificationResponse, 404: HttpError },
+        },
+      },
       async ({ body }, res) => {
         const { challenge, email, id, name } = await prisma.user.findFirstOrThrow({
           where: { id: body.id },

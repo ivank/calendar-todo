@@ -333,6 +333,7 @@ __metadata:
   resolution: "@calendar-todo/frontend@workspace:packages/frontend"
   dependencies:
     "@headlessui/react": "npm:^1.7.17"
+    "@heroicons/react": "npm:^2.0.18"
     "@reduxjs/toolkit": "npm:^1.9.7"
     "@simplewebauthn/browser": "npm:^8.3.4"
     "@tailwindcss/forms": "npm:^0.5.7"
@@ -692,6 +693,15 @@ __metadata:
     react: ^16 || ^17 || ^18
     react-dom: ^16 || ^17 || ^18
   checksum: a17d819e8c7aca764479eba1bd1bfe28d9f99ce4c16a296986f902ee040e57e242bd21d525570118c318cf1f013c9b56c6568980686774ca1881e82ca5cdeebe
+  languageName: node
+  linkType: hard
+
+"@heroicons/react@npm:^2.0.18":
+  version: 2.0.18
+  resolution: "@heroicons/react@npm:2.0.18"
+  peerDependencies:
+    react: ">= 16"
+  checksum: 3cef7f67c65f8b00dc4f23788e468e661a24bd805f80e3b5514a986d69c91ef05407cf50078691573eced47147db87a9bd00cc165e4fecd2a9657cbaf3eaafb5
   languageName: node
   linkType: hard
 

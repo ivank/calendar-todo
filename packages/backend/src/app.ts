@@ -1,7 +1,7 @@
 import fastify from 'fastify';
 import swagger from '@fastify/swagger';
 import cors from '@fastify/cors';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import { auth } from './routes/auth.js';
 import { EnvType } from './env.js';
@@ -42,6 +42,13 @@ export const setupApp = async (env: EnvType) => {
   });
   await app.register(cors, { origin: env.ORIGIN, credentials: true });
   await app.register(fastifyJwt, { secret: env.JWT_SECRET });
+  app.setErrorHandler(function (error, _, res) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && (error.code === 'P2025' || error.code === 'P2016')) {
+      res.status(404).send({ message: `Unable to find ${error.meta?.tableName ?? 'database'} record` });
+    } else {
+      throw error;
+    }
+  });
 
   // Routes
   // ========================================================

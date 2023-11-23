@@ -1,14 +1,14 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
-export type LineParams = {
+export type LineProps = {
   value: { done: boolean; text: string };
   onChange: (value: string) => void;
   onCheck: (checked: boolean) => void;
   onBlur: (value: string) => void;
 };
 
-export const Line: React.FC<LineParams> = ({ value, onChange, onBlur, onCheck }) => {
+export const Line: React.FC<LineProps> = ({ value, onChange, onBlur, onCheck }) => {
   const [focused, setFocused] = useState(false);
 
   const onFocus = () => {

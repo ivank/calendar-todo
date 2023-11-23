@@ -7,3 +7,28 @@ body,
 #root {
   height: 100vh;
 }
+
+@layer components {
+  .btn {
+    @apply rounded-md bg-atomictangerine-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm;
+    @apply hover:bg-atomictangerine-500 active:bg-atomictangerine-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:bg-atomictangerine-400;
+  }
+  .btn[disabled] {
+    @apply bg-atomictangerine-700;
+  }
+  .btn-text {
+    @apply text-sm font-semibold leading-6 text-gray-900;
+    @apply hover:text-atomictangerine-300;
+  }
+  .btn-text[disabled] {
+    @apply text-gray-500;
+  }
+  .input {
+    @apply rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400;
+    @apply focus:ring-2 focus:ring-inset focus:ring-atomictangerine-400 sm:text-sm sm:leading-6;
+  }
+  .input:invalid,
+  .input.input-error {
+    @apply text-red-700 ring-red-300 placeholder:text-red-300 focus:ring-red-700;
+  }
+}
