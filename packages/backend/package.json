@@ -33,7 +33,7 @@
   "scripts": {
     "db": "dotenv -- yarn pnpify prisma",
     "build:api": "dotenv -- ts-node src/generate-openapi.ts",
-    "build": "yarn build:api && tsc",
+    "build": "yarn build:api && yarn prisma generate && tsc",
     "lint": "prettier --check '{src,test}/**/*.ts'",
     "test": "vitest",
     "dev": "dotenv -- ts-node src/server.ts",
