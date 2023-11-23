@@ -9,7 +9,7 @@
     "lint": "prettier --check '{src,test}/**/*.ts' && eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "build:api": "npx @rtk-query/codegen-openapi openapi-config.cjs && prettier --write ./src/store/api.generated.ts",
-    "deploy": "FLY_API_TOKEN=$BACKEND_FLY_API_TOKEN flyctl deploy --remote-only",
+    "deploy": "FLY_API_TOKEN=$FRONTEND_FLY_API_TOKEN flyctl deploy --remote-only",
     "test": "vitest"
   },
   "dependencies": {
