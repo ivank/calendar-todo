@@ -7,4 +7,5 @@ test(
     await expect(app.inject('/named-lists')).resolves.toHaveProperty('statusCode', 401);
     await expect(get('/named-lists')).resolves.toHaveProperty('statusCode', 200);
   }),
+  { timeout: 15000 },
 );

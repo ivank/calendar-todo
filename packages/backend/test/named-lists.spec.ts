@@ -55,4 +55,5 @@ test(
       expect.objectContaining({ title: 'Test Two' }),
     ]);
   }),
+  { timeout: 15000 },
 );

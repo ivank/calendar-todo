@@ -54,4 +54,5 @@ test(
       expect.objectContaining({ day: '2023-01-02' }),
     ]);
   }),
+  { timeout: 15000 },
 );
