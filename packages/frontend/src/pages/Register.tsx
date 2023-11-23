@@ -24,7 +24,7 @@ export const Register = () => {
         const data = await startRegistration(response);
         const verification = await verify({ body: { id, response: data } });
         if ('data' in verification && verification.data.verified) {
-          dispatch(setUser({ id, ...verification.data }));
+          dispatch(setUser(verification.data.auth));
           navigate('/');
         }
       } finally {

@@ -513,21 +513,33 @@
                             true
                           ]
                         },
-                        "token": {
-                          "type": "string"
-                        },
-                        "name": {
-                          "type": "string"
-                        },
-                        "email": {
-                          "type": "string"
+                        "auth": {
+                          "type": "object",
+                          "properties": {
+                            "token": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "id": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "token",
+                            "name",
+                            "email",
+                            "id"
+                          ]
                         }
                       },
                       "required": [
                         "verified",
-                        "token",
-                        "name",
-                        "email"
+                        "auth"
                       ]
                     },
                     {
@@ -872,21 +884,33 @@
                             true
                           ]
                         },
-                        "token": {
-                          "type": "string"
-                        },
-                        "name": {
-                          "type": "string"
-                        },
-                        "email": {
-                          "type": "string"
+                        "auth": {
+                          "type": "object",
+                          "properties": {
+                            "token": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "id": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "token",
+                            "name",
+                            "email",
+                            "id"
+                          ]
                         }
                       },
                       "required": [
                         "verified",
-                        "token",
-                        "name",
-                        "email"
+                        "auth"
                       ]
                     },
                     {

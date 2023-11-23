@@ -29,7 +29,7 @@ export const Login = () => {
         const verification = await verify({ body: { id, response: data } });
 
         if ('data' in verification && verification.data.verified) {
-          dispatch(setUser({ id, ...verification.data }));
+          dispatch(setUser(verification.data.auth));
           navigate('/');
         }
       } finally {

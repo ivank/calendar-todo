@@ -13,8 +13,8 @@ import { wellKnown } from './routes/well-known.js';
 
 declare module '@fastify/jwt' {
   interface FastifyJWT {
-    payload: { id: number; email: string; name: string };
-    user: { id: number; email: string; name: string };
+    payload: { id: number };
+    user: { id: number };
   }
 }
 

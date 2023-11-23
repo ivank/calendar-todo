@@ -112,9 +112,12 @@ export type PostAuthRegistrationVerificationApiResponse =
   /** status 200 Default Response */
   | {
       verified: true;
-      token: string;
-      name: string;
-      email: string;
+      auth: {
+        token: string;
+        name: string;
+        email: string;
+        id: number;
+      };
     }
   | {
       verified: false;
@@ -173,9 +176,12 @@ export type PostAuthAuthenticationVerificationApiResponse =
   /** status 200 Default Response */
   | {
       verified: true;
-      token: string;
-      name: string;
-      email: string;
+      auth: {
+        token: string;
+        name: string;
+        email: string;
+        id: number;
+      };
     }
   | {
       verified: false;

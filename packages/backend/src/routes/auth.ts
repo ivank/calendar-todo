@@ -122,6 +122,13 @@ const AuthenticationVerification = Type.Object({
   type: Type.Literal('public-key'),
 });
 
+const Auth = Type.Object({
+  token: Type.String(),
+  name: Type.String(),
+  email: Type.String(),
+  id: Type.Number(),
+});
+
 const RegistrationRequest = Type.Object({
   email: Type.String({ format: 'email', minLength: 3, maxLength: 100 }),
   name: Type.String({ minLength: 3, maxLength: 100 }),
@@ -129,7 +136,7 @@ const RegistrationRequest = Type.Object({
 const RegistrationResponse = Type.Object({ id: Type.Number(), response: RegistrationOptions });
 const RegistrationVerificationRequest = Type.Object({ id: Type.Number(), response: RegistrationVerification });
 const RegistrationVerificationResponse = Type.Union([
-  Type.Object({ verified: Type.Literal(true), token: Type.String(), name: Type.String(), email: Type.String() }),
+  Type.Object({ verified: Type.Literal(true), auth: Auth }),
   Type.Object({ verified: Type.Literal(false) }),
 ]);
 
@@ -140,7 +147,7 @@ const AuthenticationVerificationRequest = Type.Object({
   response: AuthenticationVerification,
 });
 const AuthenticationVerificationResponse = Type.Union([
-  Type.Object({ verified: Type.Literal(true), token: Type.String(), name: Type.String(), email: Type.String() }),
+  Type.Object({ verified: Type.Literal(true), auth: Auth }),
   Type.Object({ verified: Type.Literal(false) }),
 ]);
 
@@ -190,8 +197,6 @@ export const auth: FastifyPluginAsync<{ prisma: PrismaClient; env: EnvType }> = 
         });
         const { verified, registrationInfo } = verification;
         if (verified && registrationInfo) {
-          console.log(registrationInfo);
-          console.log(response.response);
           await prisma.user.update({ where: { id }, data: { challenge: '' } });
           await prisma.authenticator.create({
             data: {
@@ -204,7 +209,8 @@ export const auth: FastifyPluginAsync<{ prisma: PrismaClient; env: EnvType }> = 
               transports: response.response.transports,
             },
           });
-          res.send({ verified, name, email, token: await res.jwtSign({ id, email, name }, { expiresIn: '2 day' }) });
+          const token = await res.jwtSign({ id }, { expiresIn: '30 days' });
+          res.send({ verified, auth: { name, email, token, id } });
         } else {
           res.send({ verified: false });
         }
@@ -272,7 +278,8 @@ export const auth: FastifyPluginAsync<{ prisma: PrismaClient; env: EnvType }> = 
         const { verified } = verification;
         if (verified) {
           await prisma.user.update({ where: { id }, data: { challenge: '' } });
-          res.send({ verified, name, email, token: await res.jwtSign({ id, email, name }, { expiresIn: '2 day' }) });
+          const token = await res.jwtSign({ id }, { expiresIn: '30 days' });
+          res.send({ verified, auth: { id, name, email, token } });
         } else {
           res.send({ verified: false });
         }
