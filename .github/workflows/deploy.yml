@@ -20,10 +20,10 @@ jobs:
           node-version: '18'
           cache: yarn
       - uses: ./.github/actions/yarn-install
-      - run: yarn build
-      - run: yarn lint
-      - run: yarn test --run
-      - run: yarn deploy
+      - run: yarn each build
+      - run: yarn each lint
+      - run: yarn each test --run
+      - run: yarn each deploy
         env:
           BACKEND_FLY_API_TOKEN: ${{ secrets.BACKEND_FLY_API_TOKEN }}
           FRONTEND_FLY_API_TOKEN: ${{ secrets.FRONTEND_FLY_API_TOKEN }}
