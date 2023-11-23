@@ -33,7 +33,13 @@ export const setupApp = async (env: EnvType) => {
     },
   }).withTypeProvider<TypeBoxTypeProvider & { input: unknown }>();
 
-  await app.register(swagger, { openapi: { openapi: '3.1.0', info: { title: 'Refast TuexDuex', version: '1.0.0' } } });
+  await app.register(swagger, {
+    openapi: {
+      openapi: '3.1.0',
+      servers: [{ url: env.SERVER_URL, description: 'Deployment' }],
+      info: { title: 'Calendar Todo', version: '1.0.0' },
+    },
+  });
   await app.register(cors, { origin: env.ORIGIN, credentials: true });
   await app.register(fastifyJwt, { secret: env.JWT_SECRET });
 

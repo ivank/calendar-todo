@@ -16,3 +16,4 @@
 **/dist/
 **/__generated__/
 node_modules/
+**/.env.local

@@ -1,6 +1,12 @@
 import { apiEmpty as api } from './api.empty';
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
+    getWellKnownHealthCheck: build.query<GetWellKnownHealthCheckApiResponse, GetWellKnownHealthCheckApiArg>({
+      query: () => ({ url: `/.well-known/health-check` }),
+    }),
+    getWellKnownOpenapiJson: build.query<GetWellKnownOpenapiJsonApiResponse, GetWellKnownOpenapiJsonApiArg>({
+      query: () => ({ url: `/.well-known/openapi.json` }),
+    }),
     postAuthRegistration: build.mutation<PostAuthRegistrationApiResponse, PostAuthRegistrationApiArg>({
       query: (queryArg) => ({ url: `/auth/registration`, method: 'POST', body: queryArg.body }),
     }),
@@ -53,6 +59,12 @@ const injectedRtkApi = api.injectEndpoints({
   overrideExisting: false,
 });
 export { injectedRtkApi as apiGenerated };
+export type GetWellKnownHealthCheckApiResponse = /** status 200 Default Response */ {
+  healthy: boolean;
+};
+export type GetWellKnownHealthCheckApiArg = void;
+export type GetWellKnownOpenapiJsonApiResponse = unknown;
+export type GetWellKnownOpenapiJsonApiArg = void;
 export type PostAuthRegistrationApiResponse = /** status 200 Default Response */ {
   id: number;
   response: {
@@ -96,7 +108,8 @@ export type PostAuthRegistrationApiArg = {
     name: string;
   };
 };
-export type PostAuthRegistrationVerificationApiResponse = /** status 200 Default Response */
+export type PostAuthRegistrationVerificationApiResponse =
+  /** status 200 Default Response */
   | {
       verified: true;
       token: string;
@@ -156,7 +169,8 @@ export type PostAuthAuthenticationApiArg = {
     email: string;
   };
 };
-export type PostAuthAuthenticationVerificationApiResponse = /** status 200 Default Response */
+export type PostAuthAuthenticationVerificationApiResponse =
+  /** status 200 Default Response */
   | {
       verified: true;
       token: string;
@@ -238,14 +252,12 @@ export type PatchNamedListsByIdApiResponse = /** status 200 TodoNamedList */ {
 };
 export type PatchNamedListsByIdApiArg = {
   id: number;
-  /** TodoNamedList */
   body: {
     title: string;
     items: {
       done: boolean;
       text: string;
     }[];
-    id: number;
   };
 };
 export type DeleteNamedListsByIdApiResponse = /** status 200 TodoNamedList */ {
@@ -309,14 +321,12 @@ export type PatchDayListsByIdApiResponse = /** status 200 TodoDayList */ {
 };
 export type PatchDayListsByIdApiArg = {
   id: number;
-  /** TodoDayList */
   body: {
     day: string;
     items: {
       done: boolean;
       text: string;
     }[];
-    id: number;
   };
 };
 export type DeleteDayListsByIdApiResponse = /** status 200 TodoDayList */ {
@@ -331,6 +341,8 @@ export type DeleteDayListsByIdApiArg = {
   id: number;
 };
 export const {
+  useGetWellKnownHealthCheckQuery,
+  useGetWellKnownOpenapiJsonQuery,
   usePostAuthRegistrationMutation,
   usePostAuthRegistrationVerificationMutation,
   usePostAuthAuthenticationMutation,

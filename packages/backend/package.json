@@ -1,18 +1,18 @@
 {
-  "name": "@refast-tuexduex/backend",
+  "name": "@calendar-todo/backend",
   "devDependencies": {
     "@types/node": "^20.9.1",
     "@yarnpkg/pnpify": "^4.0.1",
     "dotenv": "^16.3.1",
     "dotenv-cli": "^7.3.0",
     "fastify-tsconfig": "^2.0.0",
+    "prettier": "^3.1.0",
+    "prisma": "^5.6.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.2",
-    "prisma": "^5.6.0",
     "vitest": "^0.34.6"
   },
   "dependencies": {
-    "pino-pretty": "^10.2.3",
     "@fastify/cors": "^8.4.1",
     "@fastify/jwt": "^7.2.3",
     "@fastify/swagger": "^8.12.0",
@@ -21,17 +21,23 @@
     "@simplewebauthn/server": "^8.3.5",
     "@sinclair/typebox": "^0.31.25",
     "fastify": "^4.17.0",
-    "fastify-plugin": "^4.5.1"
+    "fastify-plugin": "^4.5.1",
+    "pino-pretty": "^10.2.3"
   },
   "prisma": {
     "seed": "ts-node src/seed.ts"
   },
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "scripts": {
     "db": "dotenv -- yarn pnpify prisma",
-    "build:api": "ts-node src/generate-openapi.ts",
-    "build": "tsc",
+    "build:api": "dotenv -- ts-node src/generate-openapi.ts",
+    "build": "yarn build:api && tsc",
+    "lint": "prettier --check '{src,test}/**/*.ts'",
     "test": "vitest",
-    "dev": "dotenv -- ts-node src/index.ts",
+    "dev": "dotenv -- ts-node src/server.ts",
+    "deploy": "flyctl deploy --remote-only",
     "start": "node dist/server.js"
   },
   "version": "1.0.0",
