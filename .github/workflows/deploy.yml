@@ -13,6 +13,8 @@ jobs:
       - uses: actions/checkout@v3
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: docker-compose up -d
+      - name: Enable Corepack before setting up Node
+        run: corepack enable
       - uses: actions/setup-node@v4
         with:
           node-version: '18'
@@ -23,4 +25,5 @@ jobs:
       - run: yarn test --run
       - run: yarn deploy
         env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          BACKEND_FLY_API_TOKEN: ${{ secrets.BACKEND_FLY_API_TOKEN }}
+          FRONTEND_FLY_API_TOKEN: ${{ secrets.FRONTEND_FLY_API_TOKEN }}

@@ -37,7 +37,7 @@
     "lint": "prettier --check '{src,test}/**/*.ts'",
     "test": "vitest",
     "dev": "dotenv -- ts-node src/server.ts",
-    "deploy": "flyctl deploy --remote-only",
+    "deploy": "FLY_API_TOKEN=$BACKEND_FLY_API_TOKEN flyctl deploy --remote-only",
     "start": "node dist/server.js"
   },
   "version": "1.0.0",
