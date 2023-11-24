@@ -7,7 +7,7 @@ Its the perfect app for a try out - not too complex so it doesn't take too much 
 
 ![Screenshot](/screenshot.png)
 
-You can login and play around at [calendar-todo.ikerin.com](https://calendar-todo.ikerin.com). Will require a newish browers with passkeys (passwordless) support.
+You can login and play around at [calendar-todo.ikerin.com](https://calendar-todo.ikerin.com). Will require a newish brower with passkeys (passwordless) support.
 
 ## Breakdown
 
