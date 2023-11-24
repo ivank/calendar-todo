@@ -1,16 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { setDayCurrent, setWindowSize } from '../store/lists.slice';
-import { Listbox, Menu, Transition } from '@headlessui/react';
+import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import logoSvg from '../assets/logo.svg';
 import { clearUser } from '../store/auth.slice';
-import {
-  ChevronUpDownIcon,
-  CodeBracketSquareIcon,
-  UserCircleIcon as UserCircleOutline,
-} from '@heroicons/react/24/outline';
+import { CodeBracketSquareIcon, UserCircleIcon as UserCircleOutline } from '@heroicons/react/24/outline';
 import {
   UserCircleIcon as UserCircleSolid,
   ChevronDoubleLeftIcon,
