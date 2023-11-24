@@ -39,7 +39,7 @@ export const TodoList: React.FC<ListParams> = ({ items, onChange }) => {
   const doNotFocusNewItemInput = (event) => event.stopPropagation();
 
   return (
-    <ol className="bg-text-lines h-full" onClick={focusNewItemInput}>
+    <ol className="bg-text-lines h-full min-h-[200px]" onClick={focusNewItemInput}>
       {currentItems.map((item, index) => (
         <li key={index} className="border-slate-300 pt-2 mb-1" onClick={doNotFocusNewItemInput}>
           <Line
