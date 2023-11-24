@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { toEpoch } from '../helpers';
+import { createStateStorage, toEpoch } from '../helpers';
 
 export type Range = [from: number, to: number];
 export type Window = { show: Range; data: Range; current: number };
@@ -23,13 +23,14 @@ const toWindow = (current: number, size: number): Window => ({
   current,
 });
 
-const initialState: ListsState = {
+const { loadState, saveState } = createStateStorage<ListsState>(name, ['namedShown', 'size']);
+
+const initialState: ListsState = loadState({
   day: toWindow(initialCurrent, initialSize),
   named: toWindow(0, initialSize),
   size: initialSize,
   namedShown: true,
-  ...JSON.parse(localStorage.getItem(name)),
-};
+});
 
 export const listsSlice = createSlice({
   name,
@@ -41,7 +42,7 @@ export const listsSlice = createSlice({
       const nextNamed = toWindow(state.named.current, state.size);
       state.day = isRangeWithin(nextDay.show, state.day.data) ? { ...state.day, show: nextDay.show } : nextDay;
       state.named = { ...state.named, show: nextNamed.show };
-      localStorage.setItem(name, JSON.stringify({ namedShown: state.namedShown, size: state.size }));
+      saveState(state);
     },
     setDayCurrent: (state, action: PayloadAction<number>) => {
       const next = toWindow(action.payload, state.size);
@@ -57,7 +58,7 @@ export const listsSlice = createSlice({
     },
     setNamedShown: (state, action: PayloadAction<boolean>) => {
       state.namedShown = action.payload;
-      localStorage.setItem(name, JSON.stringify({ namedShown: state.namedShown, size: state.size }));
+      saveState(state);
     },
   },
 });
