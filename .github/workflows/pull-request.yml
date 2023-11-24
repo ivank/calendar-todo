@@ -22,4 +22,3 @@ jobs:
       - run: yarn each build
       - run: yarn each lint
       - run: yarn each test --run
-      - run: yarn each deploy
