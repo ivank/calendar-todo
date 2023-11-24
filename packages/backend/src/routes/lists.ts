@@ -9,14 +9,12 @@ const ExistingItem = Type.Object({ id: Type.Number() });
 const Line = Type.Object({ done: Type.Boolean(), text: Type.String() });
 const DayListData = Type.Object({ position: Type.Number(), type: Type.Literal('DAY'), items: Type.Array(Line) });
 const DayList = Type.Composite([DayListData, ExistingItem]);
-const NamedListData = Type.Object({
-  title: Type.String(),
-  position: Type.Number(),
-  type: Type.Literal('NAMED'),
-  items: Type.Array(Line),
-});
+
+const AddNamedList = Type.Object({ title: Type.String(), type: Type.Literal('NAMED'), items: Type.Array(Line) });
+const NamedListData = Type.Composite([AddNamedList, Type.Object({ position: Type.Number() })]);
 const NamedList = Type.Composite([NamedListData, ExistingItem]);
 const ListData = Type.Union([DayListData, NamedListData]);
+const AddListData = Type.Union([DayListData, AddNamedList]);
 const List = Type.Union([DayList, NamedList]);
 const Lists = Type.Array(List);
 const ListsQuery = Type.Object({ from: Type.Number(), to: Type.Number() });
@@ -42,9 +40,22 @@ export const lists: FastifyPluginAsync<{ prisma: PrismaClient }> = async (app, {
     )
     .post(
       '/',
-      { schema: { body: ListData, response: { 200: List } }, onRequest: async (req) => await req.jwtVerify() },
-      async ({ user, body: data }, res) =>
-        res.send(Value.Decode(List, await prisma.list.create({ data: { ...data, userId: user.id }, select }))),
+      { schema: { body: AddListData, response: { 200: List } }, onRequest: async (req) => await req.jwtVerify() },
+      async ({ user, body: data }, res) => {
+        if (data.type === 'NAMED') {
+          const latestList = await prisma.list.findFirst({
+            select: { position: true },
+            where: { userId: user.id, type: 'NAMED' },
+            orderBy: { position: 'desc' },
+          });
+          const position = latestList ? latestList.position + 1 : 1;
+          res.send(
+            Value.Decode(List, await prisma.list.create({ data: { ...data, userId: user.id, position }, select })),
+          );
+        } else {
+          res.send(Value.Decode(List, await prisma.list.create({ data: { ...data, userId: user.id }, select })));
+        }
+      },
     )
     .get(
       '/:id',

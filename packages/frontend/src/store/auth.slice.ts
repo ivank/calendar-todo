@@ -11,21 +11,23 @@ export interface AuthState {
   user?: User;
 }
 
+const name = 'auth';
+
 const initialState: AuthState = {
-  user: JSON.parse(localStorage.getItem('auth')),
+  user: JSON.parse(localStorage.getItem(name)),
 };
 
 export const authSlice = createSlice({
-  name: 'auth',
+  name,
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
-      localStorage.setItem('auth', JSON.stringify(action.payload));
+      localStorage.setItem(name, JSON.stringify(action.payload));
     },
     clearUser: (state, action: PayloadAction<undefined>) => {
       state.user = undefined;
-      localStorage.removeItem('auth');
+      localStorage.removeItem(name);
     },
   },
 });

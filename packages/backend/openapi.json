@@ -1029,9 +1029,6 @@
                           "title": {
                             "type": "string"
                           },
-                          "position": {
-                            "type": "number"
-                          },
                           "type": {
                             "type": "string",
                             "enum": [
@@ -1056,15 +1053,18 @@
                               ]
                             }
                           },
+                          "position": {
+                            "type": "number"
+                          },
                           "id": {
                             "type": "number"
                           }
                         },
                         "required": [
                           "title",
-                          "position",
                           "type",
                           "items",
+                          "position",
                           "id"
                         ]
                       }
@@ -1125,9 +1125,6 @@
                       "title": {
                         "type": "string"
                       },
-                      "position": {
-                        "type": "number"
-                      },
                       "type": {
                         "type": "string",
                         "enum": [
@@ -1155,7 +1152,6 @@
                     },
                     "required": [
                       "title",
-                      "position",
                       "type",
                       "items"
                     ]
@@ -1219,9 +1215,6 @@
                         "title": {
                           "type": "string"
                         },
-                        "position": {
-                          "type": "number"
-                        },
                         "type": {
                           "type": "string",
                           "enum": [
@@ -1246,15 +1239,18 @@
                             ]
                           }
                         },
+                        "position": {
+                          "type": "number"
+                        },
                         "id": {
                           "type": "number"
                         }
                       },
                       "required": [
                         "title",
-                        "position",
                         "type",
                         "items",
+                        "position",
                         "id"
                       ]
                     }
@@ -1332,9 +1328,6 @@
                         "title": {
                           "type": "string"
                         },
-                        "position": {
-                          "type": "number"
-                        },
                         "type": {
                           "type": "string",
                           "enum": [
@@ -1359,15 +1352,18 @@
                             ]
                           }
                         },
+                        "position": {
+                          "type": "number"
+                        },
                         "id": {
                           "type": "number"
                         }
                       },
                       "required": [
                         "title",
-                        "position",
                         "type",
                         "items",
+                        "position",
                         "id"
                       ]
                     }
@@ -1427,9 +1423,6 @@
                       "title": {
                         "type": "string"
                       },
-                      "position": {
-                        "type": "number"
-                      },
                       "type": {
                         "type": "string",
                         "enum": [
@@ -1453,13 +1446,16 @@
                             "text"
                           ]
                         }
+                      },
+                      "position": {
+                        "type": "number"
                       }
                     },
                     "required": [
                       "title",
-                      "position",
                       "type",
-                      "items"
+                      "items",
+                      "position"
                     ]
                   }
                 ]
@@ -1531,9 +1527,6 @@
                         "title": {
                           "type": "string"
                         },
-                        "position": {
-                          "type": "number"
-                        },
                         "type": {
                           "type": "string",
                           "enum": [
@@ -1558,15 +1551,18 @@
                             ]
                           }
                         },
+                        "position": {
+                          "type": "number"
+                        },
                         "id": {
                           "type": "number"
                         }
                       },
                       "required": [
                         "title",
-                        "position",
                         "type",
                         "items",
+                        "position",
                         "id"
                       ]
                     }
@@ -1642,9 +1638,6 @@
                         "title": {
                           "type": "string"
                         },
-                        "position": {
-                          "type": "number"
-                        },
                         "type": {
                           "type": "string",
                           "enum": [
@@ -1669,15 +1662,18 @@
                             ]
                           }
                         },
+                        "position": {
+                          "type": "number"
+                        },
                         "id": {
                           "type": "number"
                         }
                       },
                       "required": [
                         "title",
-                        "position",
                         "type",
                         "items",
+                        "position",
                         "id"
                       ]
                     }

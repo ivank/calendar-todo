@@ -23,6 +23,12 @@ body,
   .btn-text[disabled] {
     @apply text-gray-500;
   }
+  .btn-sm {
+    @apply rounded bg-white px-2 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50;
+  }
+  .btn-sm[disabled] {
+    @apply bg-gray-100 ring-gray-200;
+  }
   .input {
     @apply rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400;
     @apply focus:ring-2 focus:ring-inset focus:ring-atomictangerine-400 sm:text-sm sm:leading-6;

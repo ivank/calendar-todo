@@ -9,9 +9,10 @@ export interface ListsState {
   day: Window;
   named: Window;
   size: number;
-  dayPickerShown: boolean;
+  namedShown: boolean;
 }
 
+const name = 'lists';
 const bufferSize = 20;
 const initialSize = 5;
 const initialCurrent = toEpoch(new Date());
@@ -26,11 +27,12 @@ const initialState: ListsState = {
   day: toWindow(initialCurrent, initialSize),
   named: toWindow(0, initialSize),
   size: initialSize,
-  dayPickerShown: false,
+  namedShown: true,
+  ...JSON.parse(localStorage.getItem(name)),
 };
 
 export const listsSlice = createSlice({
-  name: 'lists',
+  name,
   initialState,
   reducers: {
     setWindowSize: (state, action: PayloadAction<number>) => {
@@ -39,6 +41,7 @@ export const listsSlice = createSlice({
       const nextNamed = toWindow(state.named.current, state.size);
       state.day = isRangeWithin(nextDay.show, state.day.data) ? { ...state.day, show: nextDay.show } : nextDay;
       state.named = { ...state.named, show: nextNamed.show };
+      localStorage.setItem(name, JSON.stringify({ namedShown: state.namedShown, size: state.size }));
     },
     setDayCurrent: (state, action: PayloadAction<number>) => {
       const next = toWindow(action.payload, state.size);
@@ -52,14 +55,12 @@ export const listsSlice = createSlice({
         ? { ...state.named, show: next.show, current: next.current }
         : next;
     },
-    showDayicker: (state) => {
-      state.dayPickerShown = true;
-    },
-    hideDayPicker: (state) => {
-      state.dayPickerShown = false;
+    setNamedShown: (state, action: PayloadAction<boolean>) => {
+      state.namedShown = action.payload;
+      localStorage.setItem(name, JSON.stringify({ namedShown: state.namedShown, size: state.size }));
     },
   },
 });
 
-export const { setWindowSize, setDayCurrent, setNamedCurrent, showDayicker, hideDayPicker } = listsSlice.actions;
+export const { setWindowSize, setDayCurrent, setNamedCurrent, setNamedShown } = listsSlice.actions;
 export const listsReducer = listsSlice.reducer;

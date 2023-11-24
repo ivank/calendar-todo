@@ -15,4 +15,6 @@ export const getErrorMessage = (error?: SerializedError | { data?: {} }) =>
     ? String(error.data.message)
     : 'message' in error
       ? error.message
-      : 'Unknown Error');
+      : 'error' in error
+        ? String(error.error)
+        : String(error));

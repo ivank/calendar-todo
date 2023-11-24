@@ -23,10 +23,10 @@ test(
     const createdNamed = (
       await post({
         url: '/lists',
-        body: { title: 'Test Test', position: 2, type: 'NAMED', items: [{ done: false, text: 'test line' }] },
+        body: { title: 'Test Test', type: 'NAMED', items: [{ done: false, text: 'test line' }] },
       })
     ).json();
-    expect(createdNamed).toMatchObject({ title: 'Test Test', type: 'NAMED' });
+    expect(createdNamed).toMatchObject({ title: 'Test Test', type: 'NAMED', position: 2 });
 
     const modifiedLists = (await get('/lists?from=10000&to=10100')).json();
     expect(modifiedLists).toEqual([
