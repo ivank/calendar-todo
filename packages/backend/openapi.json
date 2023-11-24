@@ -953,358 +953,12 @@
         }
       }
     },
-    "/named-lists/": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "description": "TodoNamedList",
-                    "type": "object",
-                    "properties": {
-                      "title": {
-                        "type": "string"
-                      },
-                      "items": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "done": {
-                              "type": "boolean"
-                            },
-                            "text": {
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "done",
-                            "text"
-                          ]
-                        }
-                      },
-                      "id": {
-                        "type": "number"
-                      }
-                    },
-                    "required": [
-                      "title",
-                      "items",
-                      "id"
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "orderBy": {
-                    "type": "number"
-                  },
-                  "title": {
-                    "type": "string"
-                  },
-                  "items": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "done": {
-                          "type": "boolean"
-                        },
-                        "text": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "done",
-                        "text"
-                      ]
-                    }
-                  }
-                },
-                "required": [
-                  "orderBy",
-                  "title",
-                  "items"
-                ]
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "TodoNamedList",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "TodoNamedList",
-                  "type": "object",
-                  "properties": {
-                    "title": {
-                      "type": "string"
-                    },
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "done": {
-                            "type": "boolean"
-                          },
-                          "text": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "done",
-                          "text"
-                        ]
-                      }
-                    },
-                    "id": {
-                      "type": "number"
-                    }
-                  },
-                  "required": [
-                    "title",
-                    "items",
-                    "id"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/named-lists/{id}": {
+    "/lists/": {
       "get": {
         "parameters": [
           {
             "schema": {
               "type": "number"
-            },
-            "in": "path",
-            "name": "id",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "TodoNamedList",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "TodoNamedList",
-                  "type": "object",
-                  "properties": {
-                    "title": {
-                      "type": "string"
-                    },
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "done": {
-                            "type": "boolean"
-                          },
-                          "text": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "done",
-                          "text"
-                        ]
-                      }
-                    },
-                    "id": {
-                      "type": "number"
-                    }
-                  },
-                  "required": [
-                    "title",
-                    "items",
-                    "id"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      },
-      "patch": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "title": {
-                    "type": "string"
-                  },
-                  "items": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "done": {
-                          "type": "boolean"
-                        },
-                        "text": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "done",
-                        "text"
-                      ]
-                    }
-                  }
-                },
-                "required": [
-                  "title",
-                  "items"
-                ]
-              }
-            }
-          },
-          "required": true
-        },
-        "parameters": [
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "path",
-            "name": "id",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "TodoNamedList",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "TodoNamedList",
-                  "type": "object",
-                  "properties": {
-                    "title": {
-                      "type": "string"
-                    },
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "done": {
-                            "type": "boolean"
-                          },
-                          "text": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "done",
-                          "text"
-                        ]
-                      }
-                    },
-                    "id": {
-                      "type": "number"
-                    }
-                  },
-                  "required": [
-                    "title",
-                    "items",
-                    "id"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "parameters": [
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "path",
-            "name": "id",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "TodoNamedList",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "TodoNamedList",
-                  "type": "object",
-                  "properties": {
-                    "title": {
-                      "type": "string"
-                    },
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "done": {
-                            "type": "boolean"
-                          },
-                          "text": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "done",
-                          "text"
-                        ]
-                      }
-                    },
-                    "id": {
-                      "type": "number"
-                    }
-                  },
-                  "required": [
-                    "title",
-                    "items",
-                    "id"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/day-lists/": {
-      "get": {
-        "parameters": [
-          {
-            "schema": {
-              "format": "date",
-              "type": "string"
             },
             "in": "query",
             "name": "from",
@@ -1312,8 +966,7 @@
           },
           {
             "schema": {
-              "format": "date",
-              "type": "string"
+              "type": "number"
             },
             "in": "query",
             "name": "to",
@@ -1328,12 +981,118 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "description": "TodoDayList",
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "position": {
+                            "type": "number"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "DAY"
+                            ]
+                          },
+                          "items": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "done": {
+                                  "type": "boolean"
+                                },
+                                "text": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "done",
+                                "text"
+                              ]
+                            }
+                          },
+                          "id": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "position",
+                          "type",
+                          "items",
+                          "id"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "type": "string"
+                          },
+                          "position": {
+                            "type": "number"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "NAMED"
+                            ]
+                          },
+                          "items": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "done": {
+                                  "type": "boolean"
+                                },
+                                "text": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "done",
+                                "text"
+                              ]
+                            }
+                          },
+                          "id": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "title",
+                          "position",
+                          "type",
+                          "items",
+                          "id"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
                     "type": "object",
                     "properties": {
-                      "day": {
-                        "format": "date",
-                        "type": "string"
+                      "position": {
+                        "type": "number"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "DAY"
+                        ]
                       },
                       "items": {
                         "type": "array",
@@ -1352,101 +1111,153 @@
                             "text"
                           ]
                         }
-                      },
-                      "id": {
-                        "type": "number"
                       }
                     },
                     "required": [
-                      "day",
-                      "items",
-                      "id"
+                      "position",
+                      "type",
+                      "items"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string"
+                      },
+                      "position": {
+                        "type": "number"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "NAMED"
+                        ]
+                      },
+                      "items": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "done": {
+                              "type": "boolean"
+                            },
+                            "text": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "done",
+                            "text"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "title",
+                      "position",
+                      "type",
+                      "items"
                     ]
                   }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "day": {
-                    "format": "date",
-                    "type": "string"
-                  },
-                  "items": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "done": {
-                          "type": "boolean"
-                        },
-                        "text": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "done",
-                        "text"
-                      ]
-                    }
-                  }
-                },
-                "required": [
-                  "day",
-                  "items"
                 ]
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
-            "description": "TodoDayList",
+            "description": "Default Response",
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "TodoDayList",
-                  "type": "object",
-                  "properties": {
-                    "day": {
-                      "format": "date",
-                      "type": "string"
-                    },
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "done": {
-                            "type": "boolean"
-                          },
-                          "text": {
-                            "type": "string"
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "position": {
+                          "type": "number"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "DAY"
+                          ]
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "done": {
+                                "type": "boolean"
+                              },
+                              "text": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "done",
+                              "text"
+                            ]
                           }
                         },
-                        "required": [
-                          "done",
-                          "text"
-                        ]
-                      }
+                        "id": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "position",
+                        "type",
+                        "items",
+                        "id"
+                      ]
                     },
-                    "id": {
-                      "type": "number"
+                    {
+                      "type": "object",
+                      "properties": {
+                        "title": {
+                          "type": "string"
+                        },
+                        "position": {
+                          "type": "number"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "NAMED"
+                          ]
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "done": {
+                                "type": "boolean"
+                              },
+                              "text": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "done",
+                              "text"
+                            ]
+                          }
+                        },
+                        "id": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "title",
+                        "position",
+                        "type",
+                        "items",
+                        "id"
+                      ]
                     }
-                  },
-                  "required": [
-                    "day",
-                    "items",
-                    "id"
                   ]
                 }
               }
@@ -1455,7 +1266,7 @@
         }
       }
     },
-    "/day-lists/{id}": {
+    "/lists/{id}": {
       "get": {
         "parameters": [
           {
@@ -1469,43 +1280,97 @@
         ],
         "responses": {
           "200": {
-            "description": "TodoDayList",
+            "description": "Default Response",
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "TodoDayList",
-                  "type": "object",
-                  "properties": {
-                    "day": {
-                      "format": "date",
-                      "type": "string"
-                    },
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "done": {
-                            "type": "boolean"
-                          },
-                          "text": {
-                            "type": "string"
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "position": {
+                          "type": "number"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "DAY"
+                          ]
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "done": {
+                                "type": "boolean"
+                              },
+                              "text": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "done",
+                              "text"
+                            ]
                           }
                         },
-                        "required": [
-                          "done",
-                          "text"
-                        ]
-                      }
+                        "id": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "position",
+                        "type",
+                        "items",
+                        "id"
+                      ]
                     },
-                    "id": {
-                      "type": "number"
+                    {
+                      "type": "object",
+                      "properties": {
+                        "title": {
+                          "type": "string"
+                        },
+                        "position": {
+                          "type": "number"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "NAMED"
+                          ]
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "done": {
+                                "type": "boolean"
+                              },
+                              "text": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "done",
+                              "text"
+                            ]
+                          }
+                        },
+                        "id": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "title",
+                        "position",
+                        "type",
+                        "items",
+                        "id"
+                      ]
                     }
-                  },
-                  "required": [
-                    "day",
-                    "items",
-                    "id"
                   ]
                 }
               }
@@ -1518,39 +1383,89 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "day": {
-                    "format": "date",
-                    "type": "string"
-                  },
-                  "items": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "done": {
-                          "type": "boolean"
-                        },
-                        "text": {
-                          "type": "string"
-                        }
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "position": {
+                        "type": "number"
                       },
-                      "required": [
-                        "done",
-                        "text"
-                      ]
-                    }
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "DAY"
+                        ]
+                      },
+                      "items": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "done": {
+                              "type": "boolean"
+                            },
+                            "text": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "done",
+                            "text"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "position",
+                      "type",
+                      "items"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string"
+                      },
+                      "position": {
+                        "type": "number"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "NAMED"
+                        ]
+                      },
+                      "items": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "done": {
+                              "type": "boolean"
+                            },
+                            "text": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "done",
+                            "text"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "title",
+                      "position",
+                      "type",
+                      "items"
+                    ]
                   }
-                },
-                "required": [
-                  "day",
-                  "items"
                 ]
               }
             }
-          },
-          "required": true
+          }
         },
         "parameters": [
           {
@@ -1564,43 +1479,97 @@
         ],
         "responses": {
           "200": {
-            "description": "TodoDayList",
+            "description": "Default Response",
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "TodoDayList",
-                  "type": "object",
-                  "properties": {
-                    "day": {
-                      "format": "date",
-                      "type": "string"
-                    },
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "done": {
-                            "type": "boolean"
-                          },
-                          "text": {
-                            "type": "string"
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "position": {
+                          "type": "number"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "DAY"
+                          ]
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "done": {
+                                "type": "boolean"
+                              },
+                              "text": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "done",
+                              "text"
+                            ]
                           }
                         },
-                        "required": [
-                          "done",
-                          "text"
-                        ]
-                      }
+                        "id": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "position",
+                        "type",
+                        "items",
+                        "id"
+                      ]
                     },
-                    "id": {
-                      "type": "number"
+                    {
+                      "type": "object",
+                      "properties": {
+                        "title": {
+                          "type": "string"
+                        },
+                        "position": {
+                          "type": "number"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "NAMED"
+                          ]
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "done": {
+                                "type": "boolean"
+                              },
+                              "text": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "done",
+                              "text"
+                            ]
+                          }
+                        },
+                        "id": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "title",
+                        "position",
+                        "type",
+                        "items",
+                        "id"
+                      ]
                     }
-                  },
-                  "required": [
-                    "day",
-                    "items",
-                    "id"
                   ]
                 }
               }
@@ -1621,43 +1590,97 @@
         ],
         "responses": {
           "200": {
-            "description": "TodoDayList",
+            "description": "Default Response",
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "TodoDayList",
-                  "type": "object",
-                  "properties": {
-                    "day": {
-                      "format": "date",
-                      "type": "string"
-                    },
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "done": {
-                            "type": "boolean"
-                          },
-                          "text": {
-                            "type": "string"
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "position": {
+                          "type": "number"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "DAY"
+                          ]
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "done": {
+                                "type": "boolean"
+                              },
+                              "text": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "done",
+                              "text"
+                            ]
                           }
                         },
-                        "required": [
-                          "done",
-                          "text"
-                        ]
-                      }
+                        "id": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "position",
+                        "type",
+                        "items",
+                        "id"
+                      ]
                     },
-                    "id": {
-                      "type": "number"
+                    {
+                      "type": "object",
+                      "properties": {
+                        "title": {
+                          "type": "string"
+                        },
+                        "position": {
+                          "type": "number"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "NAMED"
+                          ]
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "done": {
+                                "type": "boolean"
+                              },
+                              "text": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "done",
+                              "text"
+                            ]
+                          }
+                        },
+                        "id": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "title",
+                        "position",
+                        "type",
+                        "items",
+                        "id"
+                      ]
                     }
-                  },
-                  "required": [
-                    "day",
-                    "items",
-                    "id"
                   ]
                 }
               }

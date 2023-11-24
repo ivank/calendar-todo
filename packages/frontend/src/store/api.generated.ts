@@ -25,35 +25,20 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/auth/authentication/verification`, method: 'POST', body: queryArg.body }),
     }),
-    getNamedLists: build.query<GetNamedListsApiResponse, GetNamedListsApiArg>({
-      query: () => ({ url: `/named-lists/` }),
+    getLists: build.query<GetListsApiResponse, GetListsApiArg>({
+      query: (queryArg) => ({ url: `/lists/`, params: { from: queryArg['from'], to: queryArg.to } }),
     }),
-    postNamedLists: build.mutation<PostNamedListsApiResponse, PostNamedListsApiArg>({
-      query: (queryArg) => ({ url: `/named-lists/`, method: 'POST', body: queryArg.body }),
+    postLists: build.mutation<PostListsApiResponse, PostListsApiArg>({
+      query: (queryArg) => ({ url: `/lists/`, method: 'POST', body: queryArg.body }),
     }),
-    getNamedListsById: build.query<GetNamedListsByIdApiResponse, GetNamedListsByIdApiArg>({
-      query: (queryArg) => ({ url: `/named-lists/${queryArg.id}` }),
+    getListsById: build.query<GetListsByIdApiResponse, GetListsByIdApiArg>({
+      query: (queryArg) => ({ url: `/lists/${queryArg.id}` }),
     }),
-    patchNamedListsById: build.mutation<PatchNamedListsByIdApiResponse, PatchNamedListsByIdApiArg>({
-      query: (queryArg) => ({ url: `/named-lists/${queryArg.id}`, method: 'PATCH', body: queryArg.body }),
+    patchListsById: build.mutation<PatchListsByIdApiResponse, PatchListsByIdApiArg>({
+      query: (queryArg) => ({ url: `/lists/${queryArg.id}`, method: 'PATCH', body: queryArg.body }),
     }),
-    deleteNamedListsById: build.mutation<DeleteNamedListsByIdApiResponse, DeleteNamedListsByIdApiArg>({
-      query: (queryArg) => ({ url: `/named-lists/${queryArg.id}`, method: 'DELETE' }),
-    }),
-    getDayLists: build.query<GetDayListsApiResponse, GetDayListsApiArg>({
-      query: (queryArg) => ({ url: `/day-lists/`, params: { from: queryArg['from'], to: queryArg.to } }),
-    }),
-    postDayLists: build.mutation<PostDayListsApiResponse, PostDayListsApiArg>({
-      query: (queryArg) => ({ url: `/day-lists/`, method: 'POST', body: queryArg.body }),
-    }),
-    getDayListsById: build.query<GetDayListsByIdApiResponse, GetDayListsByIdApiArg>({
-      query: (queryArg) => ({ url: `/day-lists/${queryArg.id}` }),
-    }),
-    patchDayListsById: build.mutation<PatchDayListsByIdApiResponse, PatchDayListsByIdApiArg>({
-      query: (queryArg) => ({ url: `/day-lists/${queryArg.id}`, method: 'PATCH', body: queryArg.body }),
-    }),
-    deleteDayListsById: build.mutation<DeleteDayListsByIdApiResponse, DeleteDayListsByIdApiArg>({
-      query: (queryArg) => ({ url: `/day-lists/${queryArg.id}`, method: 'DELETE' }),
+    deleteListsById: build.mutation<DeleteListsByIdApiResponse, DeleteListsByIdApiArg>({
+      query: (queryArg) => ({ url: `/lists/${queryArg.id}`, method: 'DELETE' }),
     }),
   }),
   overrideExisting: false,
@@ -210,140 +195,160 @@ export type PostAuthAuthenticationVerificationApiArg = {
     };
   };
 };
-export type GetNamedListsApiResponse = /** status 200 Default Response */ {
-  title: string;
-  items: {
-    done: boolean;
-    text: string;
-  }[];
-  id: number;
-}[];
-export type GetNamedListsApiArg = void;
-export type PostNamedListsApiResponse = /** status 200 TodoNamedList */ {
-  title: string;
-  items: {
-    done: boolean;
-    text: string;
-  }[];
-  id: number;
+export type GetListsApiResponse = /** status 200 Default Response */ (
+  | {
+      position: number;
+      type: 'DAY';
+      items: {
+        done: boolean;
+        text: string;
+      }[];
+      id: number;
+    }
+  | {
+      title: string;
+      position: number;
+      type: 'NAMED';
+      items: {
+        done: boolean;
+        text: string;
+      }[];
+      id: number;
+    }
+)[];
+export type GetListsApiArg = {
+  from: number;
+  to: number;
 };
-export type PostNamedListsApiArg = {
-  body: {
-    orderBy: number;
-    title: string;
-    items: {
-      done: boolean;
-      text: string;
-    }[];
-  };
+export type PostListsApiResponse =
+  /** status 200 Default Response */
+  | {
+      position: number;
+      type: 'DAY';
+      items: {
+        done: boolean;
+        text: string;
+      }[];
+      id: number;
+    }
+  | {
+      title: string;
+      position: number;
+      type: 'NAMED';
+      items: {
+        done: boolean;
+        text: string;
+      }[];
+      id: number;
+    };
+export type PostListsApiArg = {
+  body:
+    | {
+        position: number;
+        type: 'DAY';
+        items: {
+          done: boolean;
+          text: string;
+        }[];
+      }
+    | {
+        title: string;
+        position: number;
+        type: 'NAMED';
+        items: {
+          done: boolean;
+          text: string;
+        }[];
+      };
 };
-export type GetNamedListsByIdApiResponse = /** status 200 TodoNamedList */ {
-  title: string;
-  items: {
-    done: boolean;
-    text: string;
-  }[];
-  id: number;
-};
-export type GetNamedListsByIdApiArg = {
-  id: number;
-};
-export type PatchNamedListsByIdApiResponse = /** status 200 TodoNamedList */ {
-  title: string;
-  items: {
-    done: boolean;
-    text: string;
-  }[];
-  id: number;
-};
-export type PatchNamedListsByIdApiArg = {
-  id: number;
-  body: {
-    title: string;
-    items: {
-      done: boolean;
-      text: string;
-    }[];
-  };
-};
-export type DeleteNamedListsByIdApiResponse = /** status 200 TodoNamedList */ {
-  title: string;
-  items: {
-    done: boolean;
-    text: string;
-  }[];
-  id: number;
-};
-export type DeleteNamedListsByIdApiArg = {
-  id: number;
-};
-export type GetDayListsApiResponse = /** status 200 Default Response */ {
-  day: string;
-  items: {
-    done: boolean;
-    text: string;
-  }[];
-  id: number;
-}[];
-export type GetDayListsApiArg = {
-  from: string;
-  to: string;
-};
-export type PostDayListsApiResponse = /** status 200 TodoDayList */ {
-  day: string;
-  items: {
-    done: boolean;
-    text: string;
-  }[];
-  id: number;
-};
-export type PostDayListsApiArg = {
-  body: {
-    day: string;
-    items: {
-      done: boolean;
-      text: string;
-    }[];
-  };
-};
-export type GetDayListsByIdApiResponse = /** status 200 TodoDayList */ {
-  day: string;
-  items: {
-    done: boolean;
-    text: string;
-  }[];
+export type GetListsByIdApiResponse =
+  /** status 200 Default Response */
+  | {
+      position: number;
+      type: 'DAY';
+      items: {
+        done: boolean;
+        text: string;
+      }[];
+      id: number;
+    }
+  | {
+      title: string;
+      position: number;
+      type: 'NAMED';
+      items: {
+        done: boolean;
+        text: string;
+      }[];
+      id: number;
+    };
+export type GetListsByIdApiArg = {
   id: number;
 };
-export type GetDayListsByIdApiArg = {
+export type PatchListsByIdApiResponse =
+  /** status 200 Default Response */
+  | {
+      position: number;
+      type: 'DAY';
+      items: {
+        done: boolean;
+        text: string;
+      }[];
+      id: number;
+    }
+  | {
+      title: string;
+      position: number;
+      type: 'NAMED';
+      items: {
+        done: boolean;
+        text: string;
+      }[];
+      id: number;
+    };
+export type PatchListsByIdApiArg = {
   id: number;
+  body:
+    | {
+        position: number;
+        type: 'DAY';
+        items: {
+          done: boolean;
+          text: string;
+        }[];
+      }
+    | {
+        title: string;
+        position: number;
+        type: 'NAMED';
+        items: {
+          done: boolean;
+          text: string;
+        }[];
+      };
 };
-export type PatchDayListsByIdApiResponse = /** status 200 TodoDayList */ {
-  day: string;
-  items: {
-    done: boolean;
-    text: string;
-  }[];
-  id: number;
-};
-export type PatchDayListsByIdApiArg = {
-  id: number;
-  body: {
-    day: string;
-    items: {
-      done: boolean;
-      text: string;
-    }[];
-  };
-};
-export type DeleteDayListsByIdApiResponse = /** status 200 TodoDayList */ {
-  day: string;
-  items: {
-    done: boolean;
-    text: string;
-  }[];
-  id: number;
-};
-export type DeleteDayListsByIdApiArg = {
+export type DeleteListsByIdApiResponse =
+  /** status 200 Default Response */
+  | {
+      position: number;
+      type: 'DAY';
+      items: {
+        done: boolean;
+        text: string;
+      }[];
+      id: number;
+    }
+  | {
+      title: string;
+      position: number;
+      type: 'NAMED';
+      items: {
+        done: boolean;
+        text: string;
+      }[];
+      id: number;
+    };
+export type DeleteListsByIdApiArg = {
   id: number;
 };
 export const {
@@ -353,14 +358,9 @@ export const {
   usePostAuthRegistrationVerificationMutation,
   usePostAuthAuthenticationMutation,
   usePostAuthAuthenticationVerificationMutation,
-  useGetNamedListsQuery,
-  usePostNamedListsMutation,
-  useGetNamedListsByIdQuery,
-  usePatchNamedListsByIdMutation,
-  useDeleteNamedListsByIdMutation,
-  useGetDayListsQuery,
-  usePostDayListsMutation,
-  useGetDayListsByIdQuery,
-  usePatchDayListsByIdMutation,
-  useDeleteDayListsByIdMutation,
+  useGetListsQuery,
+  usePostListsMutation,
+  useGetListsByIdQuery,
+  usePatchListsByIdMutation,
+  useDeleteListsByIdMutation,
 } = injectedRtkApi;

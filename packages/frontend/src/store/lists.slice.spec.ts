@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { isRangeWithin } from './calendar.slice';
+import { isRangeWithin } from './lists.slice';
 
 test.each`
   range       | within      | expected

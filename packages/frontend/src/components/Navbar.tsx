@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-import { setWindowCurrent } from '../store/calendar.slice';
+import { setDayCurrent } from '../store/lists.slice';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
@@ -10,14 +10,14 @@ import { UserCircleIcon as UserCircleOutline } from '@heroicons/react/24/outline
 import { UserCircleIcon as UserCircleSolid } from '@heroicons/react/24/solid';
 
 export const Navbar = () => {
-  const { window } = useSelector((state: RootState) => state.calendar);
+  const { day, size } = useSelector((state: RootState) => state.lists);
   const user = useSelector((state: RootState) => state.auth.user);
   const dispatch = useDispatch();
 
-  const nextScreen = setWindowCurrent(window.current + window.size);
-  const nextDay = setWindowCurrent(window.current + 1);
-  const prevDay = setWindowCurrent(window.current - 1);
-  const prevScreen = setWindowCurrent(window.current - window.size);
+  const nextScreen = setDayCurrent(day.current + size);
+  const nextDay = setDayCurrent(day.current + 1);
+  const prevDay = setDayCurrent(day.current - 1);
+  const prevScreen = setDayCurrent(day.current - size);
 
   return (
     <nav className="bg-darkpurple-400">

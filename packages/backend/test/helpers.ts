@@ -66,5 +66,5 @@ export const toApi =
     );
 
 export const toHeaders = (app: FastifyInstance): IncomingHttpHeaders => ({
-  authorization: `Bearer ${app.jwt.sign({ id: 1, email: 'test@example.com', name: 'Test User' })}`,
+  authorization: `Bearer ${app.jwt.sign({ id: 1 })}`,
 });

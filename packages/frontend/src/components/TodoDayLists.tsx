@@ -1,59 +1,50 @@
-import { useGetDayListsQuery, usePatchDayListsByIdMutation, usePostDayListsMutation } from '../store/api.generated';
+import { usePatchListsByIdMutation, usePostListsMutation } from '../store/api.generated';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-import { fromEpoch, fromISODate, toHumanDate, toISODate, toWeekday } from '../helpers';
+import { fromEpoch, range, fromISODate, toHumanDate, toISODate, toWeekday } from '../helpers';
 import { TodoList } from './TodoList';
 import classNames from 'classnames';
+import { DayList } from '../store/api';
+import { FC } from 'react';
 
-type Item = { done: boolean; text: string };
-type TodoDay = { day: string; id: number; items: Item[] };
-type EmptyTodoDay = { day: string; items: Item[] };
+type EmptyList = Omit<DayList, 'id'>;
+const isNotEmpty = (list: DayList | EmptyList): list is DayList => 'id' in list;
 
-const eachEpochDay = (from: number, to: number): Date[] =>
-  [...Array(to - from)].map((_, index) => fromEpoch(from + index));
-const isTodoDay = (todo: TodoDay | EmptyTodoDay): todo is TodoDay => 'id' in todo;
+export const TodoDayLists: FC<{ data: DayList[] }> = ({ data }) => {
+  const { day, size } = useSelector((state: RootState) => state.lists);
+  const days = range(day.show[0], day.show[1]);
+  const [updateList] = usePatchListsByIdMutation();
+  const [addTodo] = usePostListsMutation();
 
-export const TodoDayLists = () => {
-  const { window } = useSelector((state: RootState) => state.calendar);
-  const days = eachEpochDay(window.show[0], window.show[1]).map(toISODate);
-  const [from, to] = window.data.map(fromEpoch).map(toISODate);
-  const { data, error } = useGetDayListsQuery({ from, to });
-  const [updateList] = usePatchDayListsByIdMutation();
-  const [addTodo] = usePostDayListsMutation();
-
-  const todoDays = days.map<TodoDay | EmptyTodoDay>(
-    (day) => data?.find((item) => item.day === day) ?? { day, items: [] },
+  const listDays = days.map(
+    (position) => data?.find((item) => item.position === position) ?? { type: 'DAY' as const, position, items: [] },
   );
 
   return (
     <dl
       className={classNames('h-full grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2', {
-        'lg:grid-cols-3': window.size === 3,
-        'lg:grid-cols-5': window.size === 5,
-        'lg:grid-cols-7': window.size === 7,
+        'lg:grid-cols-3': size === 3,
+        'lg:grid-cols-5': size === 5,
+        'lg:grid-cols-7': size === 7,
       })}
     >
-      {error ? (
-        <>Oh no, there was an error</>
-      ) : (
-        todoDays.map((todo) => (
-          <div
-            key={isTodoDay(todo) ? todo.id : todo.day}
-            className="flex flex-col gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8"
-          >
-            <dt className="text-sm text-gray-400">{toHumanDate(fromISODate(todo.day))}</dt>
-            <dt className="text-xl font-medium uppercase text-gray-600 -mt-1">{toWeekday(fromISODate(todo.day))}</dt>
-            <TodoList
-              items={todo.items}
-              onChange={(items) =>
-                isTodoDay(todo)
-                  ? updateList({ id: todo.id, body: { ...todo, items } })
-                  : addTodo({ body: { ...todo, items } })
-              }
-            />
-          </div>
-        ))
-      )}
+      {listDays.map((list) => (
+        <div
+          key={isNotEmpty(list) ? list.id : list.position}
+          className="flex flex-col gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8"
+        >
+          <dt className="text-sm text-gray-400">{toHumanDate(fromEpoch(list.position))}</dt>
+          <dt className="text-xl font-medium uppercase text-gray-600 -mt-1">{toWeekday(fromEpoch(list.position))}</dt>
+          <TodoList
+            items={list.items}
+            onChange={(items) =>
+              isNotEmpty(list)
+                ? updateList({ id: list.id, body: { ...list, items } })
+                : addTodo({ body: { ...list, items } })
+            }
+          />
+        </div>
+      ))}
     </dl>
   );
 };
