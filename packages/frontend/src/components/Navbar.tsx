@@ -6,7 +6,11 @@ import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import logoSvg from '../assets/logo.svg';
 import { clearUser } from '../store/auth.slice';
-import { ChevronUpDownIcon, UserCircleIcon as UserCircleOutline } from '@heroicons/react/24/outline';
+import {
+  ChevronUpDownIcon,
+  CodeBracketSquareIcon,
+  UserCircleIcon as UserCircleOutline,
+} from '@heroicons/react/24/outline';
 import {
   UserCircleIcon as UserCircleSolid,
   ChevronDoubleLeftIcon,
@@ -29,7 +33,7 @@ export const Navbar = () => {
   return (
     <nav className="bg-darkpurple-400">
       <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-14 items-center justify-between">
+        <div className="flex h-14 items-center justify-between gap-1">
           <div className="flex-shrink-0">
             <Link to="/">
               <img className="h-10" src={logoSvg} alt="Calendar Todo" />
@@ -42,25 +46,25 @@ export const Navbar = () => {
                   className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                   onClick={() => dispatch(prevScreen)}
                 >
-                  <ChevronDoubleLeftIcon className=" h-4" />
+                  <ChevronDoubleLeftIcon className="h-4" />
                 </button>
                 <button
                   className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                   onClick={() => dispatch(prevDay)}
                 >
-                  <ChevronLeftIcon className=" h-4" />
+                  <ChevronLeftIcon className="h-4" />
                 </button>
                 <button
                   className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                   onClick={() => dispatch(nextDay)}
                 >
-                  <ChevronRightIcon className=" h-4" />
+                  <ChevronRightIcon className="h-4" />
                 </button>
                 <button
                   className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                   onClick={() => dispatch(nextScreen)}
                 >
-                  <ChevronDoubleRightIcon className=" h-4" />
+                  <ChevronDoubleRightIcon className="h-4" />
                 </button>
               </div>
               <select
@@ -76,6 +80,13 @@ export const Navbar = () => {
                   </option>
                 ))}
               </select>
+              <a
+                className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-2 py-1 text-sm font-medium"
+                title="Source Code at GitHub"
+                href="https://github.com/ivank/calendar-todo"
+              >
+                <CodeBracketSquareIcon className="h-8" />
+              </a>
             </>
           )}
           <Menu as="div" className="relative ml-3 flex-shrink">
@@ -84,9 +95,9 @@ export const Navbar = () => {
                 <span className="absolute -inset-1.5" />
                 <span className="sr-only">Open user menu</span>
                 {user ? (
-                  <UserCircleSolid className="h-8 w-8 rounded-full text-white" />
+                  <UserCircleSolid className="h-8 rounded-full text-white" />
                 ) : (
-                  <UserCircleOutline className="h-8 w-8 rounded-full text-white" />
+                  <UserCircleOutline className="h-8 rounded-full text-white" />
                 )}
               </Menu.Button>
             </div>
