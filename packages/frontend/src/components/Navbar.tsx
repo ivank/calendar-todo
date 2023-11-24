@@ -67,7 +67,7 @@ export const Navbar = () => {
               <select
                 id="location"
                 name="location"
-                className="flex-shrink form-select rounded-md border-0 w-16 sm:w-auto py-1 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="flex-shrink form-select rounded-md border-0 w-16 sm:w-auto py-1 pl-3 pr-10  text-gray-300 bg-transparent ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-atomictangerine-400 sm:text-sm sm:leading-6"
                 value={size}
                 onChange={({ target: { value } }) => dispatch(setWindowSize(Number(value)))}
               >
