@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createStateStorage } from './state-storage.js';
 
 export interface User {
   id: number;
@@ -11,21 +12,21 @@ export interface AuthState {
   user?: User;
 }
 
-const initialState: AuthState = {
-  user: JSON.parse(localStorage.getItem('auth')),
-};
+const name = 'auth';
+const { loadState, saveState } = createStateStorage<AuthState>(name, ['user']);
+const initialState: AuthState = loadState({});
 
 export const authSlice = createSlice({
-  name: 'auth',
+  name,
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
-      localStorage.setItem('auth', JSON.stringify(action.payload));
+      saveState(state);
     },
-    clearUser: (state, action: PayloadAction<undefined>) => {
+    clearUser: (state) => {
       state.user = undefined;
-      localStorage.removeItem('auth');
+      saveState(state);
     },
   },
 });

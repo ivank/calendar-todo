@@ -207,12 +207,12 @@ export type GetListsApiResponse = /** status 200 Default Response */ (
     }
   | {
       title: string;
-      position: number;
       type: 'NAMED';
       items: {
         done: boolean;
         text: string;
       }[];
+      position: number;
       id: number;
     }
 )[];
@@ -233,12 +233,12 @@ export type PostListsApiResponse =
     }
   | {
       title: string;
-      position: number;
       type: 'NAMED';
       items: {
         done: boolean;
         text: string;
       }[];
+      position: number;
       id: number;
     };
 export type PostListsApiArg = {
@@ -253,7 +253,6 @@ export type PostListsApiArg = {
       }
     | {
         title: string;
-        position: number;
         type: 'NAMED';
         items: {
           done: boolean;
@@ -274,12 +273,12 @@ export type GetListsByIdApiResponse =
     }
   | {
       title: string;
-      position: number;
       type: 'NAMED';
       items: {
         done: boolean;
         text: string;
       }[];
+      position: number;
       id: number;
     };
 export type GetListsByIdApiArg = {
@@ -298,12 +297,12 @@ export type PatchListsByIdApiResponse =
     }
   | {
       title: string;
-      position: number;
       type: 'NAMED';
       items: {
         done: boolean;
         text: string;
       }[];
+      position: number;
       id: number;
     };
 export type PatchListsByIdApiArg = {
@@ -319,12 +318,12 @@ export type PatchListsByIdApiArg = {
       }
     | {
         title: string;
-        position: number;
         type: 'NAMED';
         items: {
           done: boolean;
           text: string;
         }[];
+        position: number;
       };
 };
 export type DeleteListsByIdApiResponse =
@@ -340,12 +339,12 @@ export type DeleteListsByIdApiResponse =
     }
   | {
       title: string;
-      position: number;
       type: 'NAMED';
       items: {
         done: boolean;
         text: string;
       }[];
+      position: number;
       id: number;
     };
 export type DeleteListsByIdApiArg = {

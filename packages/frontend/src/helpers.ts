@@ -7,7 +7,6 @@ export const toWeekday = (date: Date): string => date.toLocaleString('en-us', { 
 export const toHumanDate = (date: Date): string =>
   date.toLocaleString('en-us', { year: 'numeric', month: 'short', day: 'numeric' });
 export const fromEpoch = (epoch: number) => new Date(epoch * 8.64e7);
-export const range = (from: number, to: number): number[] => [...Array(to - from)].map((_, index) => from + index);
 
 export const getErrorMessage = (error?: SerializedError | { data?: {} }) =>
   error &&
@@ -15,4 +14,10 @@ export const getErrorMessage = (error?: SerializedError | { data?: {} }) =>
     ? String(error.data.message)
     : 'message' in error
       ? error.message
-      : 'Unknown Error');
+      : 'error' in error
+        ? String(error.error)
+        : String(error));
+
+export const range = (from: number, to: number): number[] => [...Array(to - from)].map((_, index) => from + index);
+export const pick = <T extends {}>(value: T, keys: (keyof T)[]) =>
+  value ? keys.reduce((acc, key) => ({ ...acc, [key]: value[key] }), {}) : value;

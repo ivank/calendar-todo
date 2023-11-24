@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { toEpoch } from '../helpers';
+import { toEpoch } from '../helpers.js';
+import { createStateStorage } from './state-storage.js';
 
 export type Range = [from: number, to: number];
 export type Window = { show: Range; data: Range; current: number };
@@ -9,9 +10,10 @@ export interface ListsState {
   day: Window;
   named: Window;
   size: number;
-  dayPickerShown: boolean;
+  namedShown: boolean;
 }
 
+const name = 'lists';
 const bufferSize = 20;
 const initialSize = 5;
 const initialCurrent = toEpoch(new Date());
@@ -22,15 +24,17 @@ const toWindow = (current: number, size: number): Window => ({
   current,
 });
 
-const initialState: ListsState = {
+const { loadState, saveState } = createStateStorage<ListsState>(name, ['namedShown', 'size']);
+
+const initialState: ListsState = loadState({
   day: toWindow(initialCurrent, initialSize),
   named: toWindow(0, initialSize),
   size: initialSize,
-  dayPickerShown: false,
-};
+  namedShown: true,
+});
 
 export const listsSlice = createSlice({
-  name: 'lists',
+  name,
   initialState,
   reducers: {
     setWindowSize: (state, action: PayloadAction<number>) => {
@@ -39,6 +43,7 @@ export const listsSlice = createSlice({
       const nextNamed = toWindow(state.named.current, state.size);
       state.day = isRangeWithin(nextDay.show, state.day.data) ? { ...state.day, show: nextDay.show } : nextDay;
       state.named = { ...state.named, show: nextNamed.show };
+      saveState(state);
     },
     setDayCurrent: (state, action: PayloadAction<number>) => {
       const next = toWindow(action.payload, state.size);
@@ -52,14 +57,12 @@ export const listsSlice = createSlice({
         ? { ...state.named, show: next.show, current: next.current }
         : next;
     },
-    showDayicker: (state) => {
-      state.dayPickerShown = true;
-    },
-    hideDayPicker: (state) => {
-      state.dayPickerShown = false;
+    setNamedShown: (state, action: PayloadAction<boolean>) => {
+      state.namedShown = action.payload;
+      saveState(state);
     },
   },
 });
 
-export const { setWindowSize, setDayCurrent, setNamedCurrent, showDayicker, hideDayPicker } = listsSlice.actions;
+export const { setWindowSize, setDayCurrent, setNamedCurrent, setNamedShown } = listsSlice.actions;
 export const listsReducer = listsSlice.reducer;

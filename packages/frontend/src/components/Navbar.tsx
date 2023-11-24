@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-import { setDayCurrent } from '../store/lists.slice';
-import { Menu, Transition } from '@headlessui/react';
+import { setDayCurrent, setWindowSize } from '../store/lists.slice';
+import { Listbox, Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import logoSvg from '../assets/logo.svg';
 import { clearUser } from '../store/auth.slice';
-import { UserCircleIcon as UserCircleOutline } from '@heroicons/react/24/outline';
+import { ChevronUpDownIcon, UserCircleIcon as UserCircleOutline } from '@heroicons/react/24/outline';
 import {
   UserCircleIcon as UserCircleSolid,
   ChevronDoubleLeftIcon,
@@ -14,6 +14,7 @@ import {
   ChevronRightIcon,
   ChevronDoubleRightIcon,
 } from '@heroicons/react/24/solid';
+import classNames from 'classnames';
 
 export const Navbar = () => {
   const { day, size } = useSelector((state: RootState) => state.lists);
@@ -35,39 +36,49 @@ export const Navbar = () => {
             </Link>
           </div>
           {user && (
-            <div className="flex items-center">
-              <div className="hidden md:block">
-                <div className="ml-10 flex items-baseline space-x-4">
-                  <button
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                    onClick={() => dispatch(prevScreen)}
-                  >
-                    <ChevronDoubleLeftIcon className=" h-4" />
-                  </button>
-                  <button
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                    onClick={() => dispatch(prevDay)}
-                  >
-                    <ChevronLeftIcon className=" h-4" />
-                  </button>
-                  <button
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                    onClick={() => dispatch(nextDay)}
-                  >
-                    <ChevronRightIcon className=" h-4" />
-                  </button>
-                  <button
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                    onClick={() => dispatch(nextScreen)}
-                  >
-                    <ChevronDoubleRightIcon className=" h-4" />
-                  </button>
-                </div>
+            <>
+              <div className="flex-grow flex items-center justify-center">
+                <button
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                  onClick={() => dispatch(prevScreen)}
+                >
+                  <ChevronDoubleLeftIcon className=" h-4" />
+                </button>
+                <button
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                  onClick={() => dispatch(prevDay)}
+                >
+                  <ChevronLeftIcon className=" h-4" />
+                </button>
+                <button
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                  onClick={() => dispatch(nextDay)}
+                >
+                  <ChevronRightIcon className=" h-4" />
+                </button>
+                <button
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                  onClick={() => dispatch(nextScreen)}
+                >
+                  <ChevronDoubleRightIcon className=" h-4" />
+                </button>
               </div>
-            </div>
+              <select
+                id="location"
+                name="location"
+                className="flex-shrink form-select rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                value={size}
+                onChange={({ target: { value } }) => dispatch(setWindowSize(Number(value)))}
+              >
+                {[3, 5, 7].map((item) => (
+                  <option value={item} key={item}>
+                    {item} Columns
+                  </option>
+                ))}
+              </select>
+            </>
           )}
-
-          <Menu as="div" className="relative ml-3">
+          <Menu as="div" className="relative ml-3 flex-shrink">
             <div>
               <Menu.Button className="relative flex max-w-xs items-center rounded-full text-white text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                 <span className="absolute -inset-1.5" />
