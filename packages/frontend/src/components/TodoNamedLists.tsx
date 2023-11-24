@@ -25,6 +25,8 @@ export const TodoNamedLists: React.FC<{ data: NamedList[] }> = ({ data }) => {
   const prevNamed = setNamedCurrent(Math.max(0, named.current - 1));
   const toggleNamedShown = setNamedShown(!namedShown);
 
+  console.log(deleteListStatus.originalArgs);
+
   return (
     <section>
       <nav
@@ -57,7 +59,7 @@ export const TodoNamedLists: React.FC<{ data: NamedList[] }> = ({ data }) => {
         leaveTo="transform translate-y-full"
       >
         <dl
-          className={classNames('w-full grid grid-cols-1 h-80 gap-px bg-gray-900/5 sm:grid-cols-2', {
+          className={classNames('w-full grid grid-cols-1 min-h-80 gap-px bg-gray-900/5 sm:grid-cols-2', {
             'lg:grid-cols-3': size === 3,
             'lg:grid-cols-5': size === 5,
             'lg:grid-cols-7': size === 7,
@@ -69,7 +71,7 @@ export const TodoNamedLists: React.FC<{ data: NamedList[] }> = ({ data }) => {
                 className="absolute top-2 right-2 rounded bg-white px-2 py-2 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                 onClick={() => (confirm('Are you sure?') ? deleteList({ id: list.id }) : undefined)}
               >
-                {deleteListStatus.isLoading ? (
+                {deleteListStatus.isLoading && deleteListStatus.originalArgs.id === list.id ? (
                   <img src={spinnerSvg} className="inline h-4 animate-spin" aria-hidden="true" />
                 ) : (
                   <XMarkIcon className="h-4" />

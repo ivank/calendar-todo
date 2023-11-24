@@ -22,7 +22,7 @@ export const TodoDayLists: FC<{ data: DayList[] }> = ({ data }) => {
 
   return (
     <dl
-      className={classNames('h-full grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2', {
+      className={classNames('h-full bg-white grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2', {
         'lg:grid-cols-3': size === 3,
         'lg:grid-cols-5': size === 5,
         'lg:grid-cols-7': size === 7,
