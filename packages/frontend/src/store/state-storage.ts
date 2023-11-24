@@ -1,5 +1,12 @@
 import { pick } from '../helpers.js';
 
+/**
+ * A simple tool to save and load redux store data into local storage
+ *
+ * @param key key to use for this slice
+ * @param keys limit storing / loading only certain keys
+ * @returns
+ */
 export const createStateStorage = <T>(key: string, keys: (keyof T)[]) => ({
   loadState: (initial: T) => {
     try {

@@ -165,11 +165,20 @@ export const auth: FastifyPluginAsync<{ prisma: PrismaClient; env: EnvType }> = 
       '/registration',
       { schema: { body: RegistrationRequest, response: { 200: RegistrationResponse } } },
       async ({ body }, res) => {
-        const user = await prisma.user.findFirst({ select: { id: true }, where: { email: body.email } });
-        if (user) {
+        const previousUser = await prisma.user.findFirst({
+          select: { id: true, lists: { select: { id: true } }, authenticators: { select: { id: true } } },
+          where: { email: body.email },
+        });
+        /**
+         * Check for existing users but allow overwriting if the previous user is totally empty
+         */
+        if (previousUser && previousUser.lists.length && previousUser.authenticators.length) {
           throw new Error('User already registered with this email');
         }
-        const { id } = await prisma.user.create({ select: { id: true }, data: body });
+        const { id } = previousUser
+          ? await prisma.user.update({ select: { id: true }, data: body, where: { id: previousUser.id } })
+          : await prisma.user.create({ select: { id: true }, data: body });
+
         const response = await generateRegistrationOptions({
           ...authRp,
           userID: String(id),
