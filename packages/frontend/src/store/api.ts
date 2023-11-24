@@ -1,6 +1,6 @@
-import { apiGenerated } from './api.generated';
+import { GetListsApiResponse, apiGenerated } from './api.generated';
 
-export const updateWithId =
+const updateWithId =
   <T extends { id: number }>(id: number, value: T) =>
   (items: T[]) => {
     const index = items.findIndex((item) => item.id === id);
@@ -8,29 +8,25 @@ export const updateWithId =
       items[index] = value;
     }
   };
-export const add =
-  <T extends { id: number }>(value: T) =>
-  (items: T[]) => {
-    items.push(value);
-  };
 
 export const api = apiGenerated.enhanceEndpoints({
-  addTagTypes: ['DayList', 'NamedList'],
+  addTagTypes: ['List'],
   endpoints: {
-    patchDayListsById: {
-      async onQueryStarted({ body }, { dispatch, queryFulfilled }) {
-        const patchResult = dispatch(api.util.updateQueryData('getDayLists', undefined, updateWithId(body.id, body)));
-        queryFulfilled.catch(patchResult.undo);
+    patchListsById: {
+      async onQueryStarted({ body, id }, { dispatch, queryFulfilled }) {
+        const result = dispatch(api.util.updateQueryData('getLists', undefined, updateWithId(id, { ...body, id })));
+        queryFulfilled.catch(result.undo);
       },
     },
-    patchNamedListsById: {
-      async onQueryStarted({ body }, { dispatch, queryFulfilled }) {
-        const patchResult = dispatch(api.util.updateQueryData('getNamedLists', undefined, updateWithId(body.id, body)));
-        queryFulfilled.catch(patchResult.undo);
-      },
-    },
-    getNamedLists: { providesTags: ['NamedList'] },
-    postNamedLists: { invalidatesTags: ['NamedList'] },
-    deleteNamedListsById: { invalidatesTags: ['NamedList'] },
+    getLists: { providesTags: ['List'] },
+    postLists: { invalidatesTags: ['List'] },
+    deleteListsById: { invalidatesTags: ['List'] },
   },
 });
+
+export type List = GetListsApiResponse[0];
+export type DayList = Extract<List, { type: 'DAY' }>;
+export type NamedList = Extract<List, { type: 'NAMED' }>;
+
+export const isDayList = (list: List): list is DayList => list.type === 'DAY';
+export const isNamedList = (list: List): list is NamedList => list.type === 'NAMED';

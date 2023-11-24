@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { api } from './api';
-import { calendarReducer } from './calendar.slice';
+import { listsReducer } from './lists.slice';
 import { authReducer } from './auth.slice';
 
 export const store = configureStore({
   reducer: {
     [api.reducerPath]: api.reducer,
-    calendar: calendarReducer,
+    lists: listsReducer,
     auth: authReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),

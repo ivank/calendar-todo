@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: '18'
           cache: yarn
-      - uses: ./.github/actions/yarn-install
+      - run: yarn install
       - run: yarn each build
       - run: yarn each lint
       - run: yarn each test --run

@@ -2,18 +2,14 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  const user = await prisma.user.create({
-    data: {
-      email: 'test@example.com',
-      name: 'Test User',
-    },
-  });
-  await prisma.todoNamedList.createMany({
+  const user = await prisma.user.create({ data: { email: 'test@example.com', name: 'Test User' } });
+  await prisma.list.createMany({
     data: [
       {
         title: 'Test One',
         userId: user.id,
-        orderBy: 0,
+        position: 0,
+        type: 'NAMED',
         items: [
           { done: false, text: 'pending' },
           { done: true, text: 'finished' },
@@ -22,26 +18,25 @@ async function main() {
       {
         title: 'Test Two',
         userId: user.id,
-        orderBy: 1,
+        position: 1,
+        type: 'NAMED',
         items: [
           { done: false, text: 'pending' },
           { done: true, text: 'finished' },
         ],
       },
-    ],
-  });
-  await prisma.todoDayList.createMany({
-    data: [
       {
         userId: user.id,
-        day: '2023-01-01',
+        position: 10000,
+        type: 'DAY',
         items: [
           { done: false, text: 'one' },
           { done: true, text: 'tue' },
         ],
       },
       {
-        day: '2023-01-02',
+        position: 10003,
+        type: 'DAY',
         userId: user.id,
         items: [
           { done: false, text: 'three' },

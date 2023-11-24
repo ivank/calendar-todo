@@ -7,30 +7,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model TodoNamedList {
+model List {
   id        Int      @id @default(autoincrement())
-  title     String
+  title     String?
   items     Json[]
-  userId    Int
   updatedAt DateTime @updatedAt
-  orderBy   Int
+  position  Int
+  type      ListType
+  userId    Int
   user      User     @relation(fields: [userId], references: [id])
 
-  @@unique([userId, orderBy])
+  @@unique([userId, position, type])
   @@index([userId])
+  @@index([position])
+  @@index([type])
 }
 
-model TodoDayList {
-  id        Int      @id @default(autoincrement())
-  items     Json[]
-  userId    Int
-  updatedAt DateTime @updatedAt
-  day       String
-  user      User     @relation(fields: [userId], references: [id])
-
-  @@unique([userId, day])
-  @@index([userId])
-  @@index([day])
+enum ListType {
+  DAY
+  NAMED
 }
 
 model Authenticator {
@@ -55,8 +50,7 @@ model User {
   image            String?
   authenticators   Authenticator[]
 
-  namedLists TodoDayList[]
-  dayLists   TodoNamedList[]
+  lists List[]
 
   @@unique([email])
 }

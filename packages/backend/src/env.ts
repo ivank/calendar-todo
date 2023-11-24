@@ -8,7 +8,15 @@ export const Env = Type.Object({
   SERVER_URL: Type.String({ format: 'uri' }),
   PORT: Type.String(),
   HOST: Type.String(),
-  LOG_LEVEL: Type.Union([Type.Literal('query'), Type.Literal('info'), Type.Literal('warn'), Type.Literal('error')]),
+  LOG_LEVEL: Type.Union([
+    Type.Literal('fatal'),
+    Type.Literal('error'),
+    Type.Literal('warn'),
+    Type.Literal('info'),
+    Type.Literal('debug'),
+    Type.Literal('trace'),
+    Type.Literal('silent'),
+  ]),
 });
 export type EnvType = Static<typeof Env>;
 
