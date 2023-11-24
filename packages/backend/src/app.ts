@@ -2,7 +2,6 @@ import fastify from 'fastify';
 import swagger from '@fastify/swagger';
 import cors from '@fastify/cors';
 import { Prisma, PrismaClient } from '@prisma/client';
-import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import { auth } from './routes/auth.js';
 import { EnvType } from './env.js';
 import { lists } from './routes/lists.js';
@@ -17,6 +16,9 @@ declare module '@fastify/jwt' {
   }
 }
 
+/**
+ * Convert fastify log level into prisma log levels.
+ */
 const prismaLevels: Record<EnvType['LOG_LEVEL'], Prisma.LogLevel[]> = {
   silent: [],
   fatal: ['error'],
@@ -30,13 +32,7 @@ const prismaLevels: Record<EnvType['LOG_LEVEL'], Prisma.LogLevel[]> = {
 export const setupApp = async (env: EnvType) => {
   const prisma = new PrismaClient({ log: prismaLevels[env.LOG_LEVEL], datasourceUrl: env.DATABASE_URL });
 
-  const app = fastify({
-    logger: {
-      level: env.LOG_LEVEL,
-      transport: { target: 'pino-pretty', options: { translateTime: 'HH:MM:ss Z', ignore: 'pid,hostname' } },
-    },
-  }).withTypeProvider<TypeBoxTypeProvider & { input: unknown }>();
-
+  const app = fastify({ logger: { level: env.LOG_LEVEL, transport: { target: '@fastify/one-line-logger' } } });
   await app.register(swagger, {
     openapi: {
       openapi: '3.1.0',
@@ -46,6 +42,7 @@ export const setupApp = async (env: EnvType) => {
   });
   await app.register(cors, { origin: env.ORIGIN, credentials: true });
   await app.register(fastifyJwt, { secret: env.JWT_SECRET });
+
   app.setErrorHandler(function (error, { log }, res) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && (error.code === 'P2025' || error.code === 'P2016')) {
       res.status(404).send({ message: `Unable to find ${error.meta?.tableName ?? 'database'} record` });
