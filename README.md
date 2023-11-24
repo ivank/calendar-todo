@@ -20,5 +20,4 @@ Whole thing is wrapped in a [yarn monorepo](https://yarnpkg.com/features/workspa
 
 ## Copyright
 
-Apache License 2 - 2023 Ivan Kerin
-Read the [LICENSE](./LICENSE) file.
+Apache License 2 - 2023 Ivan Kerin, Read the [LICENSE](./LICENSE) file.
