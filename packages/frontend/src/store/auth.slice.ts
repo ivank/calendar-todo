@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { createStateStorage } from '../helpers';
+import { createStateStorage } from './state-storage.js';
 
 export interface User {
   id: number;

@@ -21,19 +21,3 @@ export const getErrorMessage = (error?: SerializedError | { data?: {} }) =>
 export const range = (from: number, to: number): number[] => [...Array(to - from)].map((_, index) => from + index);
 export const pick = <T extends {}>(value: T, keys: (keyof T)[]) =>
   value ? keys.reduce((acc, key) => ({ ...acc, [key]: value[key] }), {}) : value;
-
-export const createStateStorage = <T>(key: string, keys: (keyof T)[]) => ({
-  loadState: (initial: T) => {
-    try {
-      return 'localStorage' in window ? { ...initial, ...pick(JSON.parse(localStorage.getItem(key)), keys) } : initial;
-    } catch (error) {
-      console.error(error);
-      return initial;
-    }
-  },
-  saveState: (state: T) => {
-    if ('localStorage' in window) {
-      localStorage.setItem(key, JSON.stringify(pick(state, keys)));
-    }
-  },
-});

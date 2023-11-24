@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { createStateStorage, toEpoch } from '../helpers';
+import { toEpoch } from '../helpers.js';
+import { createStateStorage } from './state-storage.js';
 
 export type Range = [from: number, to: number];
 export type Window = { show: Range; data: Range; current: number };
