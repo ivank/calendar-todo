@@ -14,7 +14,6 @@ import {
   ChevronRightIcon,
   ChevronDoubleRightIcon,
 } from '@heroicons/react/24/solid';
-import classNames from 'classnames';
 
 export const Navbar = () => {
   const { day, size } = useSelector((state: RootState) => state.lists);
