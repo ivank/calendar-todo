@@ -59,7 +59,7 @@ export const TodoNamedLists: React.FC<{ data: NamedList[] }> = ({ data }) => {
         leaveTo="transform translate-y-full"
       >
         <dl
-          className={classNames('w-full grid grid-cols-1 min-h-80 gap-px bg-gray-900/5 sm:grid-cols-2', {
+          className={classNames('w-full grid grid-cols-1 min-h-72 gap-px bg-gray-900/5 sm:grid-cols-2', {
             'lg:grid-cols-3': size === 3,
             'lg:grid-cols-5': size === 5,
             'lg:grid-cols-7': size === 7,
@@ -92,7 +92,7 @@ export const TodoNamedLists: React.FC<{ data: NamedList[] }> = ({ data }) => {
             <div className="relative flex flex-col gap-x-4 gap-y-2 px-4 py-10 sm:px-6 xl:px-8">
               <button
                 type="button"
-                className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                className="h-72 block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 onClick={() => onClickAddNewList()}
               >
                 <FolderPlusIcon className="mx-auto h-12 w-12 text-gray-400" />
