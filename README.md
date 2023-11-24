@@ -13,8 +13,8 @@ You can login and play around at [calendar-todo.ikerin.com](https://calendar-tod
 
 More on the technical implementation, decisions, woes and findings can be read at the individual app's package folders
 
-[/backend](/backend) REST api, built with [fastify](https://fastify.dev) and [prisma](https://prisma.io)
-[/frontend](/frontend) SPA app built with [React](https://react.dev) and [redux toolkit](https://redux-toolkit.js.org)
+- [packages/backend](/backend) - REST api, built with [fastify](https://fastify.dev) and [prisma](https://prisma.io)
+- [packages/frontend](/frontend) - SPA app built with [React](https://react.dev) and [redux toolkit](https://redux-toolkit.js.org)
 
 Whole thing is wrapped in a [yarn monorepo](https://yarnpkg.com/features/workspaces) and deployed via [fly.io](https://fly.io)
 
