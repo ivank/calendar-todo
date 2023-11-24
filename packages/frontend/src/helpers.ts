@@ -1,8 +1,5 @@
 import { SerializedError } from '@reduxjs/toolkit';
 
-export const toISODate = (date: Date): string => date.toISOString().substring(0, 10);
-export const fromISODate = (date: string): Date => new Date(date);
-
 export const toWeekday = (date: Date): string => date.toLocaleString('en-us', { weekday: 'long' });
 export const toHumanDate = (date: Date): string =>
   date.toLocaleString('en-us', { year: 'numeric', month: 'short', day: 'numeric' });
