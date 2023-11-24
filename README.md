@@ -5,7 +5,7 @@ Its the perfect app for a try out - not too complex so it doesn't take too much 
 
 # Demo
 
-![Screenshot](/screenshot.png)
+[![Screenshot](/screenshot.png)](https://calendar-todo.ikerin.com)
 
 You can login and play around at [calendar-todo.ikerin.com](https://calendar-todo.ikerin.com). Will require a newish browser with passkeys (passwordless) support.
 
