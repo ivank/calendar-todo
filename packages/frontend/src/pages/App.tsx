@@ -21,8 +21,10 @@ export const App = () => {
               <TodoDayLists data={data.filter(isDayList)} />
             </div>
           </section>
-          <section className="max-w-screen-2xl mx-auto">
-            <TodoNamedLists data={data.filter(isNamedList)} />
+          <section>
+            <div className="max-w-screen-2xl mx-auto h-full">
+              <TodoNamedLists data={data.filter(isNamedList)} />
+            </div>
           </section>
         </>
       )}

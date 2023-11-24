@@ -7,7 +7,13 @@ import { Link } from 'react-router-dom';
 import logoSvg from '../assets/logo.svg';
 import { clearUser } from '../store/auth.slice';
 import { UserCircleIcon as UserCircleOutline } from '@heroicons/react/24/outline';
-import { UserCircleIcon as UserCircleSolid } from '@heroicons/react/24/solid';
+import {
+  UserCircleIcon as UserCircleSolid,
+  ChevronDoubleLeftIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronDoubleRightIcon,
+} from '@heroicons/react/24/solid';
 
 export const Navbar = () => {
   const { day, size } = useSelector((state: RootState) => state.lists);
@@ -36,25 +42,25 @@ export const Navbar = () => {
                     className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                     onClick={() => dispatch(prevScreen)}
                   >
-                    &lt;&lt;
+                    <ChevronDoubleLeftIcon className=" h-4" />
                   </button>
                   <button
                     className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                     onClick={() => dispatch(prevDay)}
                   >
-                    &lt;
+                    <ChevronLeftIcon className=" h-4" />
                   </button>
                   <button
                     className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                     onClick={() => dispatch(nextDay)}
                   >
-                    &gt;
+                    <ChevronRightIcon className=" h-4" />
                   </button>
                   <button
                     className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                     onClick={() => dispatch(nextScreen)}
                   >
-                    &gt;&gt;
+                    <ChevronDoubleRightIcon className=" h-4" />
                   </button>
                 </div>
               </div>
