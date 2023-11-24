@@ -5,6 +5,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import logoSvg from '../assets/logo.svg';
+import faviconSvg from '../assets/favicon.svg';
 import { clearUser } from '../store/auth.slice';
 import { CodeBracketSquareIcon, UserCircleIcon as UserCircleOutline } from '@heroicons/react/24/outline';
 import {
@@ -31,7 +32,8 @@ export const Navbar = () => {
         <div className="flex h-14 items-center justify-between gap-1">
           <div className="flex-shrink-0">
             <Link to="/">
-              <img className="h-10" src={logoSvg} alt="Calendar Todo" />
+              <img className="h-10 hidden sm:block" src={logoSvg} alt="Calendar Todo" />
+              <img className="h-10 sm:hidden" src={faviconSvg} alt="Calendar Todo" />
             </Link>
           </div>
           {user && (
@@ -65,7 +67,7 @@ export const Navbar = () => {
               <select
                 id="location"
                 name="location"
-                className="flex-shrink form-select rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="flex-shrink form-select rounded-md border-0 w-16 sm:w-auto py-1 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 value={size}
                 onChange={({ target: { value } }) => dispatch(setWindowSize(Number(value)))}
               >
@@ -76,7 +78,7 @@ export const Navbar = () => {
                 ))}
               </select>
               <a
-                className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-2 py-1 text-sm font-medium"
+                className="hidden sm:block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-2 py-1 text-sm font-medium"
                 title="Source Code at GitHub"
                 href="https://github.com/ivank/calendar-todo"
               >
@@ -84,7 +86,7 @@ export const Navbar = () => {
               </a>
             </>
           )}
-          <Menu as="div" className="relative ml-3 flex-shrink">
+          <Menu as="div" className="relative flex-shrink">
             <div>
               <Menu.Button className="relative flex max-w-xs items-center rounded-full text-white text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                 <span className="absolute -inset-1.5" />
