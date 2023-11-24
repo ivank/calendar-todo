@@ -22,7 +22,7 @@ export const TodoNamedLists: React.FC<{ data: NamedList[] }> = ({ data }) => {
 
   const shownLists = data.slice(named.current, named.current + size);
   const nextNamed = setNamedCurrent(Math.min(data.length, named.current + 1));
-  const prevNamed = setNamedCurrent(Math.max(1, named.current - 1));
+  const prevNamed = setNamedCurrent(Math.max(0, named.current - 1));
   const toggleNamedShown = setNamedShown(!namedShown);
 
   return (
@@ -34,7 +34,7 @@ export const TodoNamedLists: React.FC<{ data: NamedList[] }> = ({ data }) => {
           { 'from-gray-900/0': !namedShown },
         )}
       >
-        <button className="btn-sm" disabled={named.current <= 1} onClick={() => dispatch(prevNamed)}>
+        <button className="btn-sm" disabled={named.current <= 0} onClick={() => dispatch(prevNamed)}>
           <ChevronLeftIcon className=" h-4" />
         </button>
         <button className="btn-sm">
