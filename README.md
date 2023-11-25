@@ -1,6 +1,6 @@
 # Calendar Todo
 
-A simple todo organizer app, that I've developed just to try out some new tech, coming out of a sabatical.
+A simple todo organizer app, that I've developed just to try out some new tech, coming out of a sabbatical.
 Its the perfect app for a try out - not too complex so it doesn't take too much tiem to implement, but still requires significant forthought - user maangement, resource management etc. Simply a delight.
 
 # Demo
