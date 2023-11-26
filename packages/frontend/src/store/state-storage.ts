@@ -1,4 +1,4 @@
-import { pick } from '../helpers.js';
+import { pick } from "../helpers.js";
 
 /**
  * A simple tool to save and load redux store data into local storage
@@ -10,14 +10,16 @@ import { pick } from '../helpers.js';
 export const createStateStorage = <T>(key: string, keys: (keyof T)[]) => ({
   loadState: (initial: T) => {
     try {
-      return 'localStorage' in window ? { ...initial, ...pick(JSON.parse(localStorage.getItem(key)), keys) } : initial;
+      return "localStorage" in window
+        ? { ...initial, ...pick(JSON.parse(localStorage.getItem(key)), keys) }
+        : initial;
     } catch (error) {
       console.error(error);
       return initial;
     }
   },
   saveState: (state: T) => {
-    if ('localStorage' in window) {
+    if ("localStorage" in window) {
       localStorage.setItem(key, JSON.stringify(pick(state, keys)));
     }
   },

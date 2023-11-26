@@ -1,20 +1,23 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store/store';
-import { setDayCurrent, setWindowSize } from '../store/lists.slice';
-import { Menu, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import logoSvg from '../assets/logo.svg';
-import faviconSvg from '../assets/favicon.svg';
-import { clearUser } from '../store/auth.slice';
-import { CodeBracketSquareIcon, UserCircleIcon as UserCircleOutline } from '@heroicons/react/24/outline';
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { setDayCurrent, setWindowSize } from "../store/lists.slice";
+import { Menu, Transition } from "@headlessui/react";
+import { Fragment } from "react";
+import { Link } from "react-router-dom";
+import logoSvg from "../assets/logo.svg";
+import faviconSvg from "../assets/favicon.svg";
+import { clearUser } from "../store/auth.slice";
+import {
+  CodeBracketSquareIcon,
+  UserCircleIcon as UserCircleOutline,
+} from "@heroicons/react/24/outline";
 import {
   UserCircleIcon as UserCircleSolid,
   ChevronDoubleLeftIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   ChevronDoubleRightIcon,
-} from '@heroicons/react/24/solid';
+} from "@heroicons/react/24/solid";
 
 export const Navbar = () => {
   const { day, size } = useSelector((state: RootState) => state.lists);
@@ -32,44 +35,52 @@ export const Navbar = () => {
         <div className="flex h-14 items-center justify-between gap-1">
           <div className="flex-shrink-0">
             <Link to="/">
-              <img className="h-10 hidden sm:block" src={logoSvg} alt="Calendar Todo" />
-              <img className="h-10 sm:hidden" src={faviconSvg} alt="Calendar Todo" />
+              <img
+                className="hidden h-10 sm:block"
+                src={logoSvg}
+                alt="Calendar Todo"
+              />
+              <img
+                className="h-10 sm:hidden"
+                src={faviconSvg}
+                alt="Calendar Todo"
+              />
             </Link>
           </div>
           {user && (
             <>
-              <div className="flex-grow flex items-center justify-center">
+              <div className="flex flex-grow items-center justify-center">
                 <button
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                  className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                   onClick={() => dispatch(prevScreen)}
                 >
                   <ChevronDoubleLeftIcon className="h-4" />
                 </button>
                 <button
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                  className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                   onClick={() => dispatch(prevDay)}
                 >
                   <ChevronLeftIcon className="h-4" />
                 </button>
                 <button
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                  className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                   onClick={() => dispatch(nextDay)}
                 >
                   <ChevronRightIcon className="h-4" />
                 </button>
                 <button
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                  className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                   onClick={() => dispatch(nextScreen)}
                 >
                   <ChevronDoubleRightIcon className="h-4" />
                 </button>
               </div>
               <select
-                id="location"
-                name="location"
-                className="flex-shrink form-select rounded-md border-0 w-16 sm:w-auto py-1 pl-3 pr-10  text-gray-300 bg-transparent ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-atomictangerine-400 sm:text-sm sm:leading-6"
+                className="form-select hidden w-16 flex-shrink rounded-md border-0 bg-transparent py-1 pl-3 pr-10 text-gray-300  ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-atomictangerine-400 lg:block"
                 value={size}
-                onChange={({ target: { value } }) => dispatch(setWindowSize(Number(value)))}
+                onChange={({ target: { value } }) =>
+                  dispatch(setWindowSize(Number(value)))
+                }
               >
                 {[3, 5, 7].map((item) => (
                   <option value={item} key={item}>
@@ -78,7 +89,7 @@ export const Navbar = () => {
                 ))}
               </select>
               <a
-                className="hidden sm:block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-2 py-1 text-sm font-medium"
+                className="rounded-md px-2 py-1 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                 title="Source Code at GitHub"
                 href="https://github.com/ivank/calendar-todo"
               >
@@ -88,7 +99,7 @@ export const Navbar = () => {
           )}
           <Menu as="div" className="relative flex-shrink">
             <div>
-              <Menu.Button className="relative flex max-w-xs items-center rounded-full text-white text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+              <Menu.Button className="relative flex max-w-xs items-center rounded-full text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                 <span className="absolute -inset-1.5" />
                 <span className="sr-only">Open user menu</span>
                 {user ? (
@@ -112,7 +123,7 @@ export const Navbar = () => {
                   <Menu.Item>
                     <button
                       onClick={() => dispatch(clearUser())}
-                      className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 active:bg-gray-300"
+                      className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-200 active:bg-gray-300"
                     >
                       Sign Out
                     </button>
@@ -122,7 +133,7 @@ export const Navbar = () => {
                     <Menu.Item>
                       <Link
                         to="/login"
-                        className="w-full block text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 active:bg-gray-300"
+                        className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-200 active:bg-gray-300"
                       >
                         Login
                       </Link>

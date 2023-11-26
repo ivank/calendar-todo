@@ -1,17 +1,22 @@
-import React, { useRef, useState } from 'react';
-import { Line } from './Line';
+import React, { useRef, useState } from "react";
+import { Line } from "./Line";
 
 type Item = { done: boolean; text: string };
 
 const updateIndexValue = (index: number, value: string, items: Item[]) =>
   items[index].text === value
     ? items
-    : items.map((item, currentIndex) => (currentIndex === index ? { ...item, text: value } : item));
+    : items.map((item, currentIndex) =>
+        currentIndex === index ? { ...item, text: value } : item,
+      );
 
 const updateIndexDone = (index: number, done: boolean, items: Item[]) =>
-  items.map((item, currentIndex) => (currentIndex === index ? { ...item, done } : item));
+  items.map((item, currentIndex) =>
+    currentIndex === index ? { ...item, done } : item,
+  );
 
-const removeIndex = (index: number, items: Item[]) => items.filter((_, currentIndex) => currentIndex !== index);
+const removeIndex = (index: number, items: Item[]) =>
+  items.filter((_, currentIndex) => currentIndex !== index);
 
 export interface ListParams {
   items: Item[];
@@ -20,7 +25,7 @@ export interface ListParams {
 
 export const TodoList: React.FC<ListParams> = ({ items, onChange }) => {
   const [currentItems, setCurrentItems] = useState<Item[]>(items);
-  const [newItem, setNewItem] = useState<string>('');
+  const [newItem, setNewItem] = useState<string>("");
   const newItemInput = useRef<HTMLInputElement>(null);
 
   const setCurrentItemsAndUpdate = (items: Item[]) => {
@@ -31,7 +36,7 @@ export const TodoList: React.FC<ListParams> = ({ items, onChange }) => {
   const addNewItem = (value: string) => {
     if (value) {
       setCurrentItemsAndUpdate([...currentItems, { done: false, text: value }]);
-      setNewItem('');
+      setNewItem("");
     }
   };
 
@@ -39,12 +44,21 @@ export const TodoList: React.FC<ListParams> = ({ items, onChange }) => {
   const doNotFocusNewItemInput = (event) => event.stopPropagation();
 
   return (
-    <ol className="bg-text-lines h-full min-h-[200px]" onClick={focusNewItemInput}>
+    <ol
+      className="h-full min-h-[200px] bg-text-lines"
+      onClick={focusNewItemInput}
+    >
       {currentItems.map((item, index) => (
-        <li key={index} className="border-slate-300 pt-2 mb-1" onClick={doNotFocusNewItemInput}>
+        <li
+          key={index}
+          className="mb-1 border-slate-300 pt-2"
+          onClick={doNotFocusNewItemInput}
+        >
           <Line
             value={item}
-            onCheck={(done) => setCurrentItems(updateIndexDone(index, done, currentItems))}
+            onCheck={(done) =>
+              setCurrentItems(updateIndexDone(index, done, currentItems))
+            }
             onChange={(value) =>
               value
                 ? setCurrentItems(updateIndexValue(index, value, currentItems))
@@ -54,13 +68,16 @@ export const TodoList: React.FC<ListParams> = ({ items, onChange }) => {
           />
         </li>
       ))}
-      <li className="pt-2 mb-1 border-slate-300" onClick={doNotFocusNewItemInput}>
+      <li
+        className="mb-1 border-slate-300 pt-2"
+        onClick={doNotFocusNewItemInput}
+      >
         <input
           ref={newItemInput}
-          className="w-full relative -top-1"
+          className="relative -top-1 w-full"
           value={newItem}
           onChange={({ target: { value } }) => setNewItem(value)}
-          onKeyUp={({ key }) => (key === 'Enter' ? addNewItem(newItem) : null)}
+          onKeyUp={({ key }) => (key === "Enter" ? addNewItem(newItem) : null)}
           onBlur={({ target: { value } }) => addNewItem(value)}
         />
       </li>

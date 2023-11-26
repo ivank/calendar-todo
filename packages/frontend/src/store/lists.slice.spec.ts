@@ -1,5 +1,5 @@
-import { expect, test } from 'vitest';
-import { isRangeWithin } from './lists.slice';
+import { expect, test } from "vitest";
+import { isRangeWithin } from "./lists.slice";
 
 test.each`
   range       | within      | expected
@@ -8,6 +8,9 @@ test.each`
   ${[10, 70]} | ${[10, 50]} | ${false}
   ${[80, 90]} | ${[10, 50]} | ${false}
   ${[3, 40]}  | ${[10, 50]} | ${false}
-`('isRangeWithin($range, $within) -> $expected', ({ range, within, expected }) => {
-  expect(isRangeWithin(range, within)).toBe(expected);
-});
+`(
+  "isRangeWithin($range, $within) -> $expected",
+  ({ range, within, expected }) => {
+    expect(isRangeWithin(range, within)).toBe(expected);
+  },
+);
