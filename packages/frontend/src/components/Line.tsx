@@ -54,7 +54,7 @@ export const Line: React.FC<LineProps> = ({
       ) : (
         <div
           className={classNames(
-            `absolute box-content h-auto w-full overflow-hidden overflow-ellipsis whitespace-nowrap rounded-sm border border-white bg-white leading-4`,
+            `absolute box-content h-auto w-full overflow-hidden overflow-ellipsis whitespace-nowrap rounded-sm border border-transparent pb-1 leading-4`,
             `group-hover/line:-m-1 group-hover/line:overflow-visible group-hover/line:whitespace-normal group-hover/line:border-slate-300 group-hover/line:p-1`,
             { "line-through": value.done },
           )}

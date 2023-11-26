@@ -5,8 +5,8 @@ import { createStateStorage } from "./state-storage.js";
 export type Range = [from: number, to: number];
 
 /**
- * Data represinging what to laod from a list, as well as which part of it to show
- * This allows for laoding of more items than are displayed, and only triggering reload
+ * Data representing what to load from a list, as well as which part of it to show
+ * This allows for loading of more items than are displayed, and only triggering reload
  * when the show window goes outside of data
  */
 export type Window = {
@@ -53,7 +53,7 @@ export interface ListsState {
 
 const name = "lists";
 const initialSize = 5;
-const initialCurrent = toEpoch(new Date());
+const initialCurrent = toEpoch(new Date()) - 1;
 
 /**
  * Create the data and show ranges for a given size.

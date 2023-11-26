@@ -4,7 +4,7 @@ import {
 } from "../store/api.generated";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { fromEpoch, range, toHumanDate, toWeekday } from "../helpers";
+import { fromEpoch, range, toEpoch, toHumanDate, toWeekday } from "../helpers";
 import { TodoList } from "./TodoList";
 import classNames from "classnames";
 import { DayList } from "../store/api";
@@ -18,6 +18,7 @@ export const TodoDayLists: FC<{ data: DayList[] }> = ({ data }) => {
   const days = range(day.data[0], day.data[1]);
   const [updateList] = usePatchListsByIdMutation();
   const [addTodo] = usePostListsMutation();
+  const today = toEpoch(new Date());
   const listDays = days.map(
     (position) =>
       data?.find((item) => item.position === position) ?? {
@@ -45,7 +46,12 @@ export const TodoDayLists: FC<{ data: DayList[] }> = ({ data }) => {
               "sm:w-[calc(100%/(2))]",
               "md:w-[calc(100%/(3))]",
               "lg:w-[calc(100%/var(--size))]",
-              "flex flex-col bg-white px-4 py-10 sm:px-6 xl:px-8",
+              "flex flex-col px-4 py-10 sm:px-6 xl:px-8",
+              {
+                "opacity-60": list.position < today,
+                "bg-gradient-to-b from-atomictangerine-400/5":
+                  list.position === today,
+              },
             )}
           >
             <dt className="text-sm text-gray-400">
