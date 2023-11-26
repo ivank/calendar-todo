@@ -74,7 +74,7 @@ export const TodoList: React.FC<ListParams> = ({ items, onChange }) => {
       >
         <input
           ref={newItemInput}
-          className="relative -top-1 w-full"
+          className="relative -top-1 w-full bg-transparent focus:bg-white"
           value={newItem}
           onChange={({ target: { value } }) => setNewItem(value)}
           onKeyUp={({ key }) => (key === "Enter" ? addNewItem(newItem) : null)}
