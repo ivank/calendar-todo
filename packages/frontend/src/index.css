@@ -11,7 +11,7 @@ body,
 @layer components {
   .btn {
     @apply rounded-md bg-atomictangerine-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm;
-    @apply hover:bg-atomictangerine-500 active:bg-atomictangerine-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:bg-atomictangerine-400;
+    @apply hover:bg-atomictangerine-500 focus-visible:bg-atomictangerine-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 active:bg-atomictangerine-300;
   }
   .btn[disabled] {
     @apply bg-atomictangerine-700;

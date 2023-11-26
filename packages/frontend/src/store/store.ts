@@ -1,7 +1,7 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { api } from './api';
-import { listsReducer } from './lists.slice';
-import { authReducer } from './auth.slice';
+import { configureStore } from "@reduxjs/toolkit";
+import { api } from "./api";
+import { listsReducer } from "./lists.slice";
+import { authReducer } from "./auth.slice";
 
 export const store = configureStore({
   reducer: {
@@ -9,7 +9,8 @@ export const store = configureStore({
     lists: listsReducer,
     auth: authReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(api.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

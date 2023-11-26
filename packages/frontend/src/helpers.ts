@@ -1,14 +1,20 @@
-import { SerializedError } from '@reduxjs/toolkit';
+import { SerializedError } from "@reduxjs/toolkit";
 
-export const toWeekday = (date: Date): string => date.toLocaleString('en-us', { weekday: 'long' });
+export const toWeekday = (date: Date): string =>
+  date.toLocaleString("en-us", { weekday: "long" });
 export const toHumanDate = (date: Date): string =>
-  date.toLocaleString('en-us', { year: 'numeric', month: 'short', day: 'numeric' });
+  date.toLocaleString("en-us", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 
 /**
  * Convert a JS Date into "days from epoch"
  * https://stackoverflow.com/questions/12739171/javascript-epoch-time-in-days
  */
-export const toEpoch = (date: Date): number => Math.trunc(date.getTime() / 8.64e7);
+export const toEpoch = (date: Date): number =>
+  Math.trunc(date.getTime() / 8.64e7);
 
 /**
  * Convert a "days from epoch" number into a JS date
@@ -25,11 +31,11 @@ export const fromEpoch = (epoch: number) => new Date(epoch * 8.64e7);
  */
 export const getErrorMessage = (error?: SerializedError | { data?: {} }) =>
   error &&
-  ('data' in error && 'message' in error.data
+  ("data" in error && "message" in error.data
     ? String(error.data.message)
-    : 'message' in error
+    : "message" in error
       ? error.message
-      : 'error' in error
+      : "error" in error
         ? String(error.error)
         : String(error));
 
@@ -41,7 +47,8 @@ export const getErrorMessage = (error?: SerializedError | { data?: {} }) =>
  * @param end    The end of the range.
  * @returns      Returns the range of numbers.
  */
-export const range = (start: number, end: number): number[] => [...Array(end - start)].map((_, index) => start + index);
+export const range = (start: number, end: number): number[] =>
+  [...Array(end - start)].map((_, index) => start + index);
 
 /**
  * Limited reimplementation of [lodash/pick](https://lodash.com/docs/#pick)
@@ -52,4 +59,6 @@ export const range = (start: number, end: number): number[] => [...Array(end - s
  * @returns      Returns the new object.
  */
 export const pick = <T extends {}>(object: T, paths: (keyof T)[]) =>
-  object ? paths.reduce((acc, key) => ({ ...acc, [key]: object[key] }), {}) : object;
+  object
+    ? paths.reduce((acc, key) => ({ ...acc, [key]: object[key] }), {})
+    : object;

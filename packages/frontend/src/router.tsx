@@ -1,13 +1,13 @@
-import { createBrowserRouter } from 'react-router-dom';
-import { Root } from './pages/Root';
-import { Login } from './pages/Login';
-import { App } from './pages/App';
-import { Register } from './pages/Register';
-import { Authenticated } from './components/Authenticated';
+import { createBrowserRouter } from "react-router-dom";
+import { Root } from "./pages/Root";
+import { Login } from "./pages/Login";
+import { App } from "./pages/App";
+import { Register } from "./pages/Register";
+import { Authenticated } from "./components/Authenticated";
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <Root />,
     children: [
       {
@@ -18,8 +18,8 @@ export const router = createBrowserRouter([
           </Authenticated>
         ),
       },
-      { path: '/login', element: <Login /> },
-      { path: '/register', element: <Register /> },
+      { path: "/login", element: <Login /> },
+      { path: "/register", element: <Register /> },
     ],
   },
 ]);

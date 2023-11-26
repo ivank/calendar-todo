@@ -1,26 +1,28 @@
-import { startAuthentication } from '@simplewebauthn/browser';
+import { startAuthentication } from "@simplewebauthn/browser";
 import {
   usePostAuthAuthenticationMutation,
   usePostAuthAuthenticationVerificationMutation,
-} from '../store/api.generated';
-import { setUser } from '../store/auth.slice';
-import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import spinnerSvg from '../assets/spinner.svg';
-import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
-import classNames from 'classnames';
-import { getErrorMessage } from '../helpers';
-import { useDispatch } from 'react-redux';
+} from "../store/api.generated";
+import { setUser } from "../store/auth.slice";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import spinnerSvg from "../assets/spinner.svg";
+import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
+import classNames from "classnames";
+import { getErrorMessage } from "../helpers";
+import { useDispatch } from "react-redux";
 
 export const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [authenticate, authenticateStatus] = usePostAuthAuthenticationMutation();
-  const [verify, verifyStatus] = usePostAuthAuthenticationVerificationMutation();
+  const [authenticate, authenticateStatus] =
+    usePostAuthAuthenticationMutation();
+  const [verify, verifyStatus] =
+    usePostAuthAuthenticationVerificationMutation();
   const [isBrowserAuthentication, setIsBrowserAuthentication] = useState(false);
   const onSubmit = async (email: string) => {
     const authentication = await authenticate({ body: { email } });
-    if ('data' in authentication) {
+    if ("data" in authentication) {
       const { id, response } = authentication.data;
       try {
         setIsBrowserAuthentication(true);
@@ -28,9 +30,9 @@ export const Login = () => {
         setIsBrowserAuthentication(false);
         const verification = await verify({ body: { id, response: data } });
 
-        if ('data' in verification && verification.data.verified) {
+        if ("data" in verification && verification.data.verified) {
           dispatch(setUser(verification.data.auth));
-          navigate('/');
+          navigate("/");
         }
       } finally {
         setIsBrowserAuthentication(false);
@@ -55,25 +57,39 @@ export const Login = () => {
           method="POST"
           onSubmit={(event) => {
             event.preventDefault();
-            onSubmit((event.currentTarget.elements.namedItem('email') as HTMLInputElement).value);
+            onSubmit(
+              (
+                event.currentTarget.elements.namedItem(
+                  "email",
+                ) as HTMLInputElement
+              ).value,
+            );
           }}
         >
           <div>
-            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
               Email address
             </label>
-            <div className="mt-2 relative rounded-md shadow-sm">
+            <div className="relative mt-2 rounded-md shadow-sm">
               <input
                 id="email"
                 name="email"
                 type="email"
                 autoComplete="email webauthn"
                 required
-                className={classNames('form-input block w-full input', { 'input-error': isError })}
+                className={classNames("input form-input block w-full", {
+                  "input-error": isError,
+                })}
               />
               {isError && (
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                  <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
+                  <ExclamationCircleIcon
+                    className="h-5 w-5 text-red-500"
+                    aria-hidden="true"
+                  />
                 </div>
               )}
             </div>
@@ -88,17 +104,25 @@ export const Login = () => {
           <div>
             <button
               type="submit"
-              className="flex w-full justify-center btn"
+              className="btn flex w-full justify-center"
               disabled={isLoading || isBrowserAuthentication}
             >
               {isLoading ? (
                 <>
-                  <img src={spinnerSvg} className="mr-2 invert animate-spin" aria-hidden="true" />
+                  <img
+                    src={spinnerSvg}
+                    className="mr-2 animate-spin invert"
+                    aria-hidden="true"
+                  />
                   Validating ...
                 </>
               ) : isBrowserAuthentication ? (
                 <>
-                  <img src={spinnerSvg} className="mr-2 invert animate-spin" aria-hidden="true" />
+                  <img
+                    src={spinnerSvg}
+                    className="mr-2 animate-spin invert"
+                    aria-hidden="true"
+                  />
                   Chosing authentication method ...
                 </>
               ) : (
@@ -109,7 +133,7 @@ export const Login = () => {
         </form>
 
         <p className="mt-10 text-center text-sm text-gray-500">
-          Don't have an account?{' '}
+          Don't have an account?{" "}
           <Link to="/register" className="btn-text">
             Register for free
           </Link>

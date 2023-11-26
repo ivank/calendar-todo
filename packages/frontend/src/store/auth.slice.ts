@@ -1,5 +1,5 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { createStateStorage } from './state-storage.js';
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createStateStorage } from "./state-storage.js";
 
 export interface User {
   id: number;
@@ -12,8 +12,8 @@ export interface AuthState {
   user?: User;
 }
 
-const name = 'auth';
-const { loadState, saveState } = createStateStorage<AuthState>(name, ['user']);
+const name = "auth";
+const { loadState, saveState } = createStateStorage<AuthState>(name, ["user"]);
 const initialState: AuthState = loadState({});
 
 export const authSlice = createSlice({

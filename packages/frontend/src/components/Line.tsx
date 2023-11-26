@@ -1,5 +1,5 @@
-import classNames from 'classnames';
-import React, { useState } from 'react';
+import classNames from "classnames";
+import React, { useState } from "react";
 
 export type LineProps = {
   value: { done: boolean; text: string };
@@ -8,7 +8,12 @@ export type LineProps = {
   onBlur: (value: string) => void;
 };
 
-export const Line: React.FC<LineProps> = ({ value, onChange, onBlur, onCheck }) => {
+export const Line: React.FC<LineProps> = ({
+  value,
+  onChange,
+  onBlur,
+  onCheck,
+}) => {
   const [focused, setFocused] = useState(false);
 
   const onFocus = () => {
@@ -23,9 +28,9 @@ export const Line: React.FC<LineProps> = ({ value, onChange, onBlur, onCheck }) 
     <div
       onClick={() => onFocus()}
       onDoubleClick={() => onCheck(!value.done)}
-      className="relative group/line h-6 hover:z-10"
+      className="group/line relative h-6 hover:z-10"
     >
-      <div className="absolute top-0 -left-6 hidden group-hover/line:block w-8 h-6 p-2 -m-2">
+      <div className="absolute -left-6 top-0 -m-2 hidden h-6 w-8 p-2 group-hover/line:block">
         <input
           className="align-text-top"
           checked={value.done}
@@ -35,9 +40,12 @@ export const Line: React.FC<LineProps> = ({ value, onChange, onBlur, onCheck }) 
       </div>
       {focused ? (
         <input
-          className={classNames('w-full relative -top-1 box-content px-0.5 -mx-0.5 border border-slate-300', {
-            'line-through': value.done,
-          })}
+          className={classNames(
+            "relative -top-1 -mx-0.5 box-content w-full border border-slate-300 px-0.5",
+            {
+              "line-through": value.done,
+            },
+          )}
           value={value.text}
           autoFocus
           onChange={({ target }) => onChange(target.value)}
@@ -46,9 +54,9 @@ export const Line: React.FC<LineProps> = ({ value, onChange, onBlur, onCheck }) 
       ) : (
         <div
           className={classNames(
-            `w-full absolute h-auto bg-white leading-4 overflow-ellipsis whitespace-nowrap overflow-hidden rounded-sm border-white border box-content`,
-            `group-hover/line:border-slate-300 group-hover/line:overflow-visible group-hover/line:whitespace-normal group-hover/line:p-1 group-hover/line:-m-1`,
-            { 'line-through': value.done },
+            `absolute box-content h-auto w-full overflow-hidden overflow-ellipsis whitespace-nowrap rounded-sm border border-white bg-white leading-4`,
+            `group-hover/line:-m-1 group-hover/line:overflow-visible group-hover/line:whitespace-normal group-hover/line:border-slate-300 group-hover/line:p-1`,
+            { "line-through": value.done },
           )}
         >
           {value.text}

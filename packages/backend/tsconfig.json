@@ -6,6 +6,5 @@
     "esModuleInterop": true,
     "moduleResolution": "NodeNext"
   },
-  "ts-node": { "esm": true },
   "include": ["src/**/*.ts"]
 }
