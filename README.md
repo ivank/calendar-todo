@@ -9,6 +9,10 @@ Its the perfect app for a try out - not too complex so it doesn't take too much 
 
 You can login and play around at [calendar-todo.ikerin.com](https://calendar-todo.ikerin.com). Will require a newish browser with passkeys (passwordless) support.
 
+# Inspiration
+
+The project implements a very simple "linear sync" engine, inspired by the linear project app https://www.youtube.com/watch?v=Wo2m3jaJixU to do a "local first" experience.
+
 ## Breakdown
 
 More on the technical implementation, decisions, woes and findings can be read at the individual app's package folders

@@ -1,5 +1,4 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { createStateStorage } from "./state-storage.js";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export interface User {
   id: number;
@@ -12,21 +11,17 @@ export interface AuthState {
   user?: User;
 }
 
-const name = "auth";
-const { loadState, saveState } = createStateStorage<AuthState>(name, ["user"]);
-const initialState: AuthState = loadState({});
+const initialState: AuthState = {};
 
 export const authSlice = createSlice({
-  name,
+  name: 'auth',
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
-      saveState(state);
     },
     clearUser: (state) => {
       state.user = undefined;
-      saveState(state);
     },
   },
 });

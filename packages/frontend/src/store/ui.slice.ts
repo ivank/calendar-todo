@@ -1,6 +1,5 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { toEpoch } from "../helpers.js";
-import { createStateStorage } from "./state-storage.js";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { toEpoch } from '../helpers.js';
 
 export type Range = [from: number, to: number];
 
@@ -27,8 +26,7 @@ export type Window = {
 /**
  * Check if range is fully within another range
  */
-export const isRangeWithin = (range: Range, within: Range): boolean =>
-  range[0] >= within[0] && range[1] <= within[1];
+export const isRangeWithin = (range: Range, within: Range): boolean => range[0] >= within[0] && range[1] <= within[1];
 
 export interface ListsState {
   /**
@@ -51,7 +49,6 @@ export interface ListsState {
   namedShown: boolean;
 }
 
-const name = "lists";
 const initialSize = 5;
 const initialCurrent = toEpoch(new Date()) - 1;
 
@@ -65,51 +62,45 @@ const toWindow = (current: number, size: number, bufferSize = 50): Window => ({
   current,
 });
 
-const { loadState, saveState } = createStateStorage<ListsState>(name, [
-  "namedShown",
-  "size",
-]);
-
-const initialState: ListsState = loadState({
+const initialState: ListsState = {
   day: toWindow(initialCurrent, initialSize),
   named: toWindow(0, initialSize),
   size: initialSize,
   namedShown: true,
-});
+};
 
-export const listsSlice = createSlice({
-  name,
+export const uiSlice = createSlice({
+  name: 'ui',
   initialState,
   reducers: {
-    setWindowSize: (state, action: PayloadAction<number>) => {
+    setWindowSize(state, action: PayloadAction<number>) {
       state.size = action.payload;
       const nextDay = toWindow(state.day.current, state.size);
       const nextNamed = toWindow(state.named.current, state.size);
-      state.day = isRangeWithin(nextDay.show, state.day.data)
-        ? { ...state.day, show: nextDay.show }
-        : nextDay;
+      state.day = isRangeWithin(nextDay.show, state.day.data) ? { ...state.day, show: nextDay.show } : nextDay;
       state.named = { ...state.named, show: nextNamed.show };
-      saveState(state);
     },
-    setDayCurrent: (state, action: PayloadAction<number>) => {
+
+    setDayCurrent(state, action: PayloadAction<number>) {
       const next = toWindow(action.payload, state.size);
       state.day = isRangeWithin(next.show, state.day.data)
         ? { ...state.day, show: next.show, current: next.current }
         : next;
     },
-    setNamedCurrent: (state, action: PayloadAction<number>) => {
+
+    setNamedCurrent(state, action: PayloadAction<number>) {
       const next = toWindow(action.payload, state.size);
       state.named = isRangeWithin(next.show, state.day.data)
         ? { ...state.named, show: next.show, current: next.current }
         : next;
     },
-    setNamedShown: (state, action: PayloadAction<boolean>) => {
+
+    setNamedShown(state, action: PayloadAction<boolean>) {
       state.namedShown = action.payload;
-      saveState(state);
     },
   },
 });
 
-export const { setWindowSize, setDayCurrent, setNamedCurrent, setNamedShown } =
-  listsSlice.actions;
-export const listsReducer = listsSlice.reducer;
+export const { setWindowSize, setDayCurrent, setNamedCurrent, setNamedShown } = uiSlice.actions;
+
+export const uiReducer = uiSlice.reducer;

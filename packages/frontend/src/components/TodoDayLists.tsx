@@ -1,73 +1,59 @@
-import {
-  usePatchListsByIdMutation,
-  usePostListsMutation,
-} from "../store/api.generated";
-import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
-import { fromEpoch, range, toEpoch, toHumanDate, toWeekday } from "../helpers";
-import { TodoList } from "./TodoList";
-import classNames from "classnames";
-import { DayList } from "../store/api";
-import { FC } from "react";
+import { useAppDispatch, useAppSelector } from '../store/store';
+import { fromEpoch, range, toEpoch, toHumanDate, toWeekday } from '../helpers';
+import { TodoList } from './TodoList';
+import classNames from 'classnames';
+import { DayList } from '../store/api';
+import { setData } from '../store/db.slice';
+import { CSSProperties } from 'react';
 
-type EmptyList = Omit<DayList, "id">;
-const isNotEmpty = (list: DayList | EmptyList): list is DayList => "id" in list;
-
-export const TodoDayLists: FC<{ data: DayList[] }> = ({ data }) => {
-  const { day } = useSelector((state: RootState) => state.lists);
+export const TodoDayLists = () => {
+  const { day, size } = useAppSelector((state) => state.ui);
+  const { data } = useAppSelector((state) => state.db);
+  const dispatch = useAppDispatch();
   const days = range(day.data[0], day.data[1]);
-  const [updateList] = usePatchListsByIdMutation();
-  const [addTodo] = usePostListsMutation();
   const today = toEpoch(new Date());
-  const listDays = days.map(
-    (position) =>
-      data?.find((item) => item.position === position) ?? {
-        type: "DAY" as const,
-        position,
-        items: [],
-      },
+  const listDays: DayList[] = days.map(
+    (position) => data.DAY[position] ?? { type: 'DAY', position, items: [], updatedAt: 0 },
   );
+
   return (
-    <div className="h-full overflow-hidden bg-white">
+    <div
+      className="h-full overflow-hidden bg-white"
+      style={
+        {
+          '--size': size,
+          '--day-current': day.current - day.data[0],
+          '--day-size': day.data[1] - day.data[0],
+        } as CSSProperties
+      }
+    >
       <dl
         className={classNames(
-          "left-[calc(-1*(100%/(1))*var(--day-current))] w-[calc((100%/(1))*var(--day-size))]",
-          "sm:left-[calc(-1*(100%/(2))*var(--day-current))] sm:w-[calc((100%/(2))*var(--day-size))]",
-          "md:left-[calc(-1*(100%/(3))*var(--day-current))] md:w-[calc((100%/(3))*var(--day-size))]",
-          "lg:left-[calc(-1*(100%/var(--size))*var(--day-current))] lg:w-[calc((100%/var(--size))*var(--day-size))]",
-          "relative flex h-full flex-row transition-all duration-200 ease-out",
+          'left-[calc(-1*(100%/(1))*var(--day-current))] w-[calc((100%/(1))*var(--day-size))]',
+          'sm:left-[calc(-1*(100%/(2))*var(--day-current))] sm:w-[calc((100%/(2))*var(--day-size))]',
+          'md:left-[calc(-1*(100%/(3))*var(--day-current))] md:w-[calc((100%/(3))*var(--day-size))]',
+          'lg:left-[calc(-1*(100%/var(--size))*var(--day-current))] lg:w-[calc((100%/var(--size))*var(--day-size))]',
+          'relative flex h-full flex-row transition-all duration-200 ease-out',
         )}
       >
         {listDays.map((list) => (
           <div
-            key={isNotEmpty(list) ? list.id : list.position}
+            key={list.position}
             className={classNames(
-              "w-[calc(100%/(1))]",
-              "sm:w-[calc(100%/(2))]",
-              "md:w-[calc(100%/(3))]",
-              "lg:w-[calc(100%/var(--size))]",
-              "flex flex-col px-4 py-10 sm:px-6 xl:px-8",
+              'w-[calc(100%/(1))]',
+              'sm:w-[calc(100%/(2))]',
+              'md:w-[calc(100%/(3))]',
+              'lg:w-[calc(100%/var(--size))]',
+              'flex flex-col px-4 py-10 sm:px-6 xl:px-8',
               {
-                "opacity-60": list.position < today,
-                "bg-gradient-to-b from-atomictangerine-400/5":
-                  list.position === today,
+                'opacity-60': list.position < today,
+                'bg-gradient-to-b from-atomictangerine-400/5': list.position === today,
               },
             )}
           >
-            <dt className="text-sm text-gray-400">
-              {toHumanDate(fromEpoch(list.position))}
-            </dt>
-            <dt className="-mt-1 text-xl font-medium uppercase text-gray-600">
-              {toWeekday(fromEpoch(list.position))}
-            </dt>
-            <TodoList
-              items={list.items}
-              onChange={(items) =>
-                isNotEmpty(list)
-                  ? updateList({ id: list.id, body: { ...list, items } })
-                  : addTodo({ body: { ...list, items } })
-              }
-            />
+            <dt className="text-sm text-gray-400">{toHumanDate(fromEpoch(list.position))}</dt>
+            <dt className="-mt-1 text-xl font-medium uppercase text-gray-600">{toWeekday(fromEpoch(list.position))}</dt>
+            <TodoList items={list.items} onChange={(items) => dispatch(setData({ ...list, items }))} />
           </div>
         ))}
       </dl>

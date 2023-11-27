@@ -17,10 +17,8 @@ model List {
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
 
-  @@unique([userId, position, type])
-  @@index([userId])
-  @@index([position])
-  @@index([type])
+  @@unique([userId, position, type], name: "pos")
+  @@index([userId, position, type])
 }
 
 enum ListType {

@@ -1012,7 +1012,7 @@
                               ]
                             }
                           },
-                          "id": {
+                          "updatedAt": {
                             "type": "number"
                           }
                         },
@@ -1020,12 +1020,15 @@
                           "position",
                           "type",
                           "items",
-                          "id"
+                          "updatedAt"
                         ]
                       },
                       {
                         "type": "object",
                         "properties": {
+                          "position": {
+                            "type": "number"
+                          },
                           "title": {
                             "type": "string"
                           },
@@ -1053,19 +1056,16 @@
                               ]
                             }
                           },
-                          "position": {
-                            "type": "number"
-                          },
-                          "id": {
+                          "updatedAt": {
                             "type": "number"
                           }
                         },
                         "required": [
+                          "position",
                           "title",
                           "type",
                           "items",
-                          "position",
-                          "id"
+                          "updatedAt"
                         ]
                       }
                     ]
@@ -1081,82 +1081,159 @@
           "content": {
             "application/json": {
               "schema": {
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "position": {
-                        "type": "number"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "DAY"
-                        ]
-                      },
-                      "items": {
-                        "type": "array",
-                        "items": {
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "anyOf": [
+                        {
                           "type": "object",
                           "properties": {
-                            "done": {
-                              "type": "boolean"
+                            "position": {
+                              "type": "number"
                             },
-                            "text": {
-                              "type": "string"
+                            "type": {
+                              "type": "string",
+                              "enum": [
+                                "DAY"
+                              ]
+                            },
+                            "items": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "done": {
+                                    "type": "boolean"
+                                  },
+                                  "text": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "done",
+                                  "text"
+                                ]
+                              }
+                            },
+                            "updatedAt": {
+                              "type": "number"
                             }
                           },
                           "required": [
-                            "done",
-                            "text"
+                            "position",
+                            "type",
+                            "items",
+                            "updatedAt"
                           ]
-                        }
-                      }
-                    },
-                    "required": [
-                      "position",
-                      "type",
-                      "items"
-                    ]
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "title": {
-                        "type": "string"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "NAMED"
-                        ]
-                      },
-                      "items": {
-                        "type": "array",
-                        "items": {
+                        },
+                        {
                           "type": "object",
                           "properties": {
-                            "done": {
-                              "type": "boolean"
+                            "position": {
+                              "type": "number"
                             },
-                            "text": {
+                            "title": {
                               "type": "string"
+                            },
+                            "type": {
+                              "type": "string",
+                              "enum": [
+                                "NAMED"
+                              ]
+                            },
+                            "items": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "done": {
+                                    "type": "boolean"
+                                  },
+                                  "text": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "done",
+                                  "text"
+                                ]
+                              }
+                            },
+                            "updatedAt": {
+                              "type": "number"
                             }
                           },
                           "required": [
-                            "done",
-                            "text"
+                            "position",
+                            "title",
+                            "type",
+                            "items",
+                            "updatedAt"
                           ]
                         }
-                      }
+                      ]
                     },
-                    "required": [
-                      "title",
-                      "type",
-                      "items"
-                    ]
-                  }
-                ]
+                    {
+                      "type": "object",
+                      "properties": {
+                        "position": {
+                          "type": "number"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "DAY"
+                          ]
+                        },
+                        "isDeleted": {
+                          "type": "boolean",
+                          "enum": [
+                            true
+                          ]
+                        },
+                        "updatedAt": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "position",
+                        "type",
+                        "isDeleted",
+                        "updatedAt"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "position": {
+                          "type": "number"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "NAMED"
+                          ]
+                        },
+                        "isDeleted": {
+                          "type": "boolean",
+                          "enum": [
+                            true
+                          ]
+                        },
+                        "updatedAt": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "position",
+                        "type",
+                        "isDeleted",
+                        "updatedAt"
+                      ]
+                    }
+                  ]
+                }
               }
             }
           }
@@ -1167,516 +1244,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "type": "object",
-                      "properties": {
-                        "position": {
-                          "type": "number"
-                        },
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "DAY"
-                          ]
-                        },
-                        "items": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "done": {
-                                "type": "boolean"
-                              },
-                              "text": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "done",
-                              "text"
-                            ]
-                          }
-                        },
-                        "id": {
-                          "type": "number"
-                        }
-                      },
-                      "required": [
-                        "position",
-                        "type",
-                        "items",
-                        "id"
-                      ]
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "title": {
-                          "type": "string"
-                        },
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "NAMED"
-                          ]
-                        },
-                        "items": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "done": {
-                                "type": "boolean"
-                              },
-                              "text": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "done",
-                              "text"
-                            ]
-                          }
-                        },
-                        "position": {
-                          "type": "number"
-                        },
-                        "id": {
-                          "type": "number"
-                        }
-                      },
-                      "required": [
-                        "title",
-                        "type",
-                        "items",
-                        "position",
-                        "id"
-                      ]
+                  "type": "object",
+                  "properties": {
+                    "synced": {
+                      "type": "number"
                     }
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/lists/{id}": {
-      "get": {
-        "parameters": [
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "path",
-            "name": "id",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "anyOf": [
-                    {
-                      "type": "object",
-                      "properties": {
-                        "position": {
-                          "type": "number"
-                        },
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "DAY"
-                          ]
-                        },
-                        "items": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "done": {
-                                "type": "boolean"
-                              },
-                              "text": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "done",
-                              "text"
-                            ]
-                          }
-                        },
-                        "id": {
-                          "type": "number"
-                        }
-                      },
-                      "required": [
-                        "position",
-                        "type",
-                        "items",
-                        "id"
-                      ]
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "title": {
-                          "type": "string"
-                        },
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "NAMED"
-                          ]
-                        },
-                        "items": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "done": {
-                                "type": "boolean"
-                              },
-                              "text": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "done",
-                              "text"
-                            ]
-                          }
-                        },
-                        "position": {
-                          "type": "number"
-                        },
-                        "id": {
-                          "type": "number"
-                        }
-                      },
-                      "required": [
-                        "title",
-                        "type",
-                        "items",
-                        "position",
-                        "id"
-                      ]
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
-      },
-      "patch": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "position": {
-                        "type": "number"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "DAY"
-                        ]
-                      },
-                      "items": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "done": {
-                              "type": "boolean"
-                            },
-                            "text": {
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "done",
-                            "text"
-                          ]
-                        }
-                      }
-                    },
-                    "required": [
-                      "position",
-                      "type",
-                      "items"
-                    ]
                   },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "title": {
-                        "type": "string"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "NAMED"
-                        ]
-                      },
-                      "items": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "done": {
-                              "type": "boolean"
-                            },
-                            "text": {
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "done",
-                            "text"
-                          ]
-                        }
-                      },
-                      "position": {
-                        "type": "number"
-                      }
-                    },
-                    "required": [
-                      "title",
-                      "type",
-                      "items",
-                      "position"
-                    ]
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "path",
-            "name": "id",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "anyOf": [
-                    {
-                      "type": "object",
-                      "properties": {
-                        "position": {
-                          "type": "number"
-                        },
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "DAY"
-                          ]
-                        },
-                        "items": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "done": {
-                                "type": "boolean"
-                              },
-                              "text": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "done",
-                              "text"
-                            ]
-                          }
-                        },
-                        "id": {
-                          "type": "number"
-                        }
-                      },
-                      "required": [
-                        "position",
-                        "type",
-                        "items",
-                        "id"
-                      ]
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "title": {
-                          "type": "string"
-                        },
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "NAMED"
-                          ]
-                        },
-                        "items": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "done": {
-                                "type": "boolean"
-                              },
-                              "text": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "done",
-                              "text"
-                            ]
-                          }
-                        },
-                        "position": {
-                          "type": "number"
-                        },
-                        "id": {
-                          "type": "number"
-                        }
-                      },
-                      "required": [
-                        "title",
-                        "type",
-                        "items",
-                        "position",
-                        "id"
-                      ]
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "parameters": [
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "path",
-            "name": "id",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "anyOf": [
-                    {
-                      "type": "object",
-                      "properties": {
-                        "position": {
-                          "type": "number"
-                        },
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "DAY"
-                          ]
-                        },
-                        "items": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "done": {
-                                "type": "boolean"
-                              },
-                              "text": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "done",
-                              "text"
-                            ]
-                          }
-                        },
-                        "id": {
-                          "type": "number"
-                        }
-                      },
-                      "required": [
-                        "position",
-                        "type",
-                        "items",
-                        "id"
-                      ]
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "title": {
-                          "type": "string"
-                        },
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "NAMED"
-                          ]
-                        },
-                        "items": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "done": {
-                                "type": "boolean"
-                              },
-                              "text": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "done",
-                              "text"
-                            ]
-                          }
-                        },
-                        "position": {
-                          "type": "number"
-                        },
-                        "id": {
-                          "type": "number"
-                        }
-                      },
-                      "required": [
-                        "title",
-                        "type",
-                        "items",
-                        "position",
-                        "id"
-                      ]
-                    }
+                  "required": [
+                    "synced"
                   ]
                 }
               }
