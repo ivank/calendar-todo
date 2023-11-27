@@ -4,21 +4,41 @@ import { PrismaClient } from '@prisma/client';
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import { Value } from '@sinclair/typebox/value';
 
-const IdPath = Type.Object({ id: Type.Number() });
-const ExistingItem = Type.Object({ id: Type.Number() });
-const Line = Type.Object({ done: Type.Boolean(), text: Type.String() });
-const DayListData = Type.Object({ position: Type.Number(), type: Type.Literal('DAY'), items: Type.Array(Line) });
-const DayList = Type.Composite([DayListData, ExistingItem]);
+const Timestamp = Type.Transform(Type.Number())
+  .Decode((value) => new Date(value))
+  .Encode((value) => value.getTime());
 
-const AddNamedList = Type.Object({ title: Type.String(), type: Type.Literal('NAMED'), items: Type.Array(Line) });
-const NamedListData = Type.Composite([AddNamedList, Type.Object({ position: Type.Number() })]);
-const NamedList = Type.Composite([NamedListData, ExistingItem]);
-const ListData = Type.Union([DayListData, NamedListData]);
-const AddListData = Type.Union([DayListData, AddNamedList]);
+const Line = Type.Object({ done: Type.Boolean(), text: Type.String() });
+const DayList = Type.Object({
+  position: Type.Number(),
+  type: Type.Literal('DAY'),
+  items: Type.Array(Line),
+  updatedAt: Timestamp,
+});
+const NamedList = Type.Object({
+  position: Type.Number(),
+  title: Type.String(),
+  type: Type.Literal('NAMED'),
+  items: Type.Array(Line),
+  updatedAt: Timestamp,
+});
+const DeletedDayList = Type.Object({
+  position: Type.Number(),
+  type: Type.Literal('DAY'),
+  isDeleted: Type.Literal(true),
+  updatedAt: Timestamp,
+});
+const DeletedNamedList = Type.Object({
+  position: Type.Number(),
+  type: Type.Literal('NAMED'),
+  isDeleted: Type.Literal(true),
+  updatedAt: Timestamp,
+});
 const List = Type.Union([DayList, NamedList]);
 const Lists = Type.Array(List);
+const Sync = Type.Array(Type.Union([List, DeletedDayList, DeletedNamedList]));
 const ListsQuery = Type.Object({ from: Type.Number(), to: Type.Number() });
-const select = { id: true, position: true, title: true, items: true, type: true };
+const SyncResult = Type.Object({ synced: Type.Number() });
 
 export const lists: FastifyPluginAsync<{ prisma: PrismaClient }> = async (app, { prisma }) => {
   app
@@ -31,51 +51,30 @@ export const lists: FastifyPluginAsync<{ prisma: PrismaClient }> = async (app, {
       },
       async ({ user, query: { from, to } }, res) => {
         const lists = await prisma.list.findMany({
-          select,
+          select: { position: true, title: true, items: true, type: true, updatedAt: true },
           where: { userId: user.id, OR: [{ position: { gte: from, lte: to }, type: 'DAY' }, { type: 'NAMED' }] },
           orderBy: { position: 'asc' },
         });
-        res.send(Value.Decode(Lists, lists));
+        res.send(Value.Encode(Lists, lists));
       },
     )
     .post(
       '/',
-      { schema: { body: AddListData, response: { 200: List } }, onRequest: async (req) => await req.jwtVerify() },
-      async ({ user, body: data }, res) => {
-        if (data.type === 'NAMED') {
-          const latestList = await prisma.list.findFirst({
-            select: { position: true },
-            where: { userId: user.id, type: 'NAMED' },
-            orderBy: { position: 'desc' },
-          });
-          const position = latestList ? latestList.position + 1 : 1;
-          res.send(
-            Value.Decode(List, await prisma.list.create({ data: { ...data, userId: user.id, position }, select })),
-          );
-        } else {
-          res.send(Value.Decode(List, await prisma.list.create({ data: { ...data, userId: user.id }, select })));
-        }
+      { schema: { body: Sync, response: { 200: SyncResult } }, onRequest: async (req) => await req.jwtVerify() },
+      async ({ user, body }, res) => {
+        const items = Value.Decode(Sync, body);
+        const synced = await prisma.$transaction(
+          items.map((data) =>
+            'isDeleted' in data
+              ? prisma.list.deleteMany({ where: { position: data.position, type: data.type, userId: user.id } })
+              : prisma.list.upsert({
+                  create: { ...data, userId: user.id },
+                  update: data,
+                  where: { pos: { position: data.position, type: data.type, userId: user.id } },
+                }),
+          ),
+        );
+        res.send({ synced: synced.length });
       },
-    )
-    .get(
-      '/:id',
-      { schema: { params: IdPath, response: { 200: List } }, onRequest: async (req) => await req.jwtVerify() },
-      async ({ user, params: { id } }, res) =>
-        res.send(Value.Decode(List, await prisma.list.findFirstOrThrow({ where: { id, userId: user.id }, select }))),
-    )
-    .patch(
-      '/:id',
-      {
-        schema: { params: IdPath, body: ListData, response: { 200: List } },
-        onRequest: async (req) => await req.jwtVerify(),
-      },
-      async ({ user, body: data, params: { id } }, res) =>
-        res.send(Value.Decode(List, await prisma.list.update({ data, where: { id, userId: user.id }, select }))),
-    )
-    .delete(
-      '/:id',
-      { schema: { params: IdPath, response: { 200: List } }, onRequest: async (req) => await req.jwtVerify() },
-      async ({ user, params: { id } }, res) =>
-        res.send(Value.Decode(List, await prisma.list.delete({ where: { id, userId: user.id }, select }))),
     );
 };
