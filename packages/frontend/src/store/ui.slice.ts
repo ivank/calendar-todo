@@ -1,7 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { toEpoch } from '../helpers.js';
-import { createStateStorage } from './state-storage.js';
-import { DayList, DeletedDayList, DeletedNamedList, List, NamedList, SyncList } from './api.js';
 
 export type Range = [from: number, to: number];
 
@@ -30,11 +28,6 @@ export type Window = {
  */
 export const isRangeWithin = (range: Range, within: Range): boolean => range[0] >= within[0] && range[1] <= within[1];
 
-interface OrderedLists {
-  DAY: { [index: number]: DayList };
-  NAMED: { [index: number]: NamedList };
-}
-
 export interface ListsState {
   /**
    * {@link Window} for the calendar days related todos
@@ -54,16 +47,8 @@ export interface ListsState {
    * Should the named todos section be shown (or hidden)
    */
   namedShown: boolean;
-
-  /**
-   * Local version of the data
-   */
-  current: OrderedLists;
-
-  changed: { DAY: { [index: number]: SyncList }; NAMED: { [index: number]: SyncList } };
 }
 
-const name = 'lists';
 const initialSize = 5;
 const initialCurrent = toEpoch(new Date()) - 1;
 
@@ -77,24 +62,15 @@ const toWindow = (current: number, size: number, bufferSize = 50): Window => ({
   current,
 });
 
-const now = () => new Date().getTime();
-
-export const maxPosition = (lists: { [index: number]: List }): number =>
-  Math.max(...Object.values(lists).map((item) => item.position));
-
-const { loadState, saveState } = createStateStorage<ListsState>(name, ['namedShown', 'size', 'current', 'current']);
-
-const initialState: ListsState = loadState({
+const initialState: ListsState = {
   day: toWindow(initialCurrent, initialSize),
   named: toWindow(0, initialSize),
   size: initialSize,
   namedShown: true,
-  current: { DAY: {}, NAMED: {} },
-  changed: { DAY: {}, NAMED: {} },
-});
+};
 
-export const listsSlice = createSlice({
-  name,
+export const uiSlice = createSlice({
+  name: 'ui',
   initialState,
   reducers: {
     setWindowSize(state, action: PayloadAction<number>) {
@@ -103,7 +79,6 @@ export const listsSlice = createSlice({
       const nextNamed = toWindow(state.named.current, state.size);
       state.day = isRangeWithin(nextDay.show, state.day.data) ? { ...state.day, show: nextDay.show } : nextDay;
       state.named = { ...state.named, show: nextNamed.show };
-      saveState(state);
     },
 
     setDayCurrent(state, action: PayloadAction<number>) {
@@ -120,50 +95,12 @@ export const listsSlice = createSlice({
         : next;
     },
 
-    setList(state, action: PayloadAction<List>) {
-      const next = { ...action.payload, updatedAt: now() };
-      state.current[action.payload.type][action.payload.position] = next;
-      state.changed[action.payload.type][action.payload.position] = next;
-      saveState(state);
-    },
-
-    deleteList(state, action: PayloadAction<List>) {
-      const next = { ...action.payload, isDeleted: true, updatedAt: now() };
-      state.changed[action.payload.type][action.payload.position] = next;
-      delete state.current[action.payload.type][action.payload.position];
-      saveState(state);
-    },
-
     setNamedShown(state, action: PayloadAction<boolean>) {
       state.namedShown = action.payload;
-      saveState(state);
-    },
-
-    updateCurrent(state, action: PayloadAction<List[]>) {
-      for (const item of action.payload) {
-        const current = state.current[item.type][item.position];
-        if (!current || current.updatedAt <= item.updatedAt) {
-          state.current[item.type][item.position] = item;
-        }
-      }
-    },
-
-    clearChanged(state) {
-      state.changed.DAY = {};
-      state.changed.NAMED = {};
     },
   },
 });
 
-export const {
-  setWindowSize,
-  setDayCurrent,
-  setNamedCurrent,
-  setNamedShown,
-  updateCurrent,
-  setList,
-  deleteList,
-  clearChanged,
-} = listsSlice.actions;
+export const { setWindowSize, setDayCurrent, setNamedCurrent, setNamedShown } = uiSlice.actions;
 
-export const listsReducer = listsSlice.reducer;
+export const uiReducer = uiSlice.reducer;

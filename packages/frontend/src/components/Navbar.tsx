@@ -1,33 +1,45 @@
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store/store";
-import { setDayCurrent, setWindowSize } from "../store/lists.slice";
-import { Menu, Transition } from "@headlessui/react";
-import { Fragment } from "react";
-import { Link } from "react-router-dom";
-import logoSvg from "../assets/logo.svg";
-import faviconSvg from "../assets/favicon.svg";
-import { clearUser } from "../store/auth.slice";
+import { useAppDispatch, useAppSelector } from '../store/store';
+import { setDayCurrent, setWindowSize } from '../store/ui.slice';
+import { Menu, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import logoSvg from '../assets/logo.svg';
+import faviconSvg from '../assets/favicon.svg';
+import { clearUser } from '../store/auth.slice';
 import {
   CodeBracketSquareIcon,
   UserCircleIcon as UserCircleOutline,
-} from "@heroicons/react/24/outline";
+  DocumentTextIcon,
+  DocumentArrowUpIcon,
+} from '@heroicons/react/24/outline';
 import {
   UserCircleIcon as UserCircleSolid,
   ChevronDoubleLeftIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   ChevronDoubleRightIcon,
-} from "@heroicons/react/24/solid";
+} from '@heroicons/react/24/solid';
+import { clearAll, toChangesLists } from '../store/db.slice';
+import { usePostListsMutation } from '../store/api.generated';
 
 export const Navbar = () => {
-  const { day, size } = useSelector((state: RootState) => state.lists);
-  const user = useSelector((state: RootState) => state.auth.user);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const { day, size } = useAppSelector((state) => state.ui);
+  const { changes } = useAppSelector((state) => state.db);
+  const user = useAppSelector((state) => state.auth.user);
+  const [, postQuery] = usePostListsMutation({ fixedCacheKey: 'sync' });
 
   const nextScreen = setDayCurrent(day.current + size);
   const nextDay = setDayCurrent(day.current + 1);
   const prevDay = setDayCurrent(day.current - 1);
   const prevScreen = setDayCurrent(day.current - size);
+
+  const hasChanges = toChangesLists(changes).length > 0;
+
+  const logOut = () => {
+    dispatch(clearUser());
+    dispatch(clearAll());
+  };
 
   return (
     <nav className="bg-darkpurple-400">
@@ -35,17 +47,16 @@ export const Navbar = () => {
         <div className="flex h-14 items-center justify-between gap-1">
           <div className="flex-shrink-0">
             <Link to="/">
-              <img
-                className="hidden h-10 sm:block"
-                src={logoSvg}
-                alt="Calendar Todo"
-              />
-              <img
-                className="h-10 sm:hidden"
-                src={faviconSvg}
-                alt="Calendar Todo"
-              />
+              <img className="hidden h-10 sm:block" src={logoSvg} alt="Calendar Todo" />
+              <img className="h-10 sm:hidden" src={faviconSvg} alt="Calendar Todo" />
             </Link>
+          </div>
+          <div className="w-6 rounded-md px-2 py-1 text-sm font-medium text-gray-300">
+            {postQuery.isLoading ? (
+              <DocumentArrowUpIcon className="h-6" title="Saving in progress" />
+            ) : hasChanges ? (
+              <DocumentTextIcon className="h-6 opacity-50" title="Unsaved changes" />
+            ) : null}
           </div>
           {user && (
             <>
@@ -78,9 +89,7 @@ export const Navbar = () => {
               <select
                 className="form-select hidden w-16 flex-shrink rounded-md border-0 bg-transparent py-1 pl-3 pr-10 text-gray-300  ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-atomictangerine-400 lg:block"
                 value={size}
-                onChange={({ target: { value } }) =>
-                  dispatch(setWindowSize(Number(value)))
-                }
+                onChange={({ target: { value } }) => dispatch(setWindowSize(Number(value)))}
               >
                 {[3, 5, 7].map((item) => (
                   <option value={item} key={item}>
@@ -122,7 +131,7 @@ export const Navbar = () => {
                 {user ? (
                   <Menu.Item>
                     <button
-                      onClick={() => dispatch(clearUser())}
+                      onClick={() => logOut()}
                       className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-200 active:bg-gray-300"
                     >
                       Sign Out

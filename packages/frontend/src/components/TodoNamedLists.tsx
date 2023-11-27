@@ -5,28 +5,32 @@ import { Transition } from '@headlessui/react';
 import { FolderPlusIcon } from '@heroicons/react/24/outline';
 import { ChevronDoubleUpIcon, ChevronLeftIcon, ChevronRightIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { NamedList } from '../store/api';
-import { deleteList, maxPosition, setList, setNamedCurrent, setNamedShown } from '../store/lists.slice';
+import { setNamedCurrent, setNamedShown } from '../store/ui.slice';
+import { deleteData, maxNamedPosition, setData, toNamedLists } from '../store/db.slice';
+import { CSSProperties } from 'react';
 
-const newNamedList: NamedList = {
-  title: 'New list',
-  type: 'NAMED' as const,
-  items: [],
-  position: 0,
-  updatedAt: 0,
-};
+const newNamedList: NamedList = { title: 'New list', type: 'NAMED', items: [], position: 0, updatedAt: 0 };
 
 export const TodoNamedLists = () => {
   const dispatch = useAppDispatch();
-  const { named, namedShown, current } = useAppSelector((state) => state.lists);
-  const data = Object.values(current.NAMED);
-  data.sort((a, b) => a.position - b.position);
+  const { size, named, namedShown } = useAppSelector((state) => state.ui);
+  const { data } = useAppSelector((state) => state.db);
+  const lists = toNamedLists(data);
 
-  const nextNamed = setNamedCurrent(Math.min(data.length, named.current + 1));
+  const nextNamed = setNamedCurrent(Math.min(lists.length, named.current + 1));
   const prevNamed = setNamedCurrent(Math.max(0, named.current - 1));
   const toggleNamedShown = setNamedShown(!namedShown);
 
   return (
-    <section>
+    <section
+      style={
+        {
+          '--size': size,
+          '--named-current': named.current,
+          '--named-size': lists.length,
+        } as CSSProperties
+      }
+    >
       <nav
         className={classNames(
           'flex h-10 flex-row justify-center gap-1 bg-gradient-to-t py-1',
@@ -43,7 +47,7 @@ export const TodoNamedLists = () => {
             onClick={() => dispatch(toggleNamedShown)}
           />
         </button>
-        <button className="btn-sm" disabled={named.current >= data.length} onClick={() => dispatch(nextNamed)}>
+        <button className="btn-sm" disabled={named.current >= lists.length} onClick={() => dispatch(nextNamed)}>
           <ChevronRightIcon className=" h-4" />
         </button>
       </nav>
@@ -66,7 +70,7 @@ export const TodoNamedLists = () => {
             'min-h-72 relative flex flex-row transition-all duration-200 ease-out',
           )}
         >
-          {data.map((list) => (
+          {lists.map((list) => (
             <div
               key={list.position}
               className={classNames(
@@ -79,16 +83,16 @@ export const TodoNamedLists = () => {
             >
               <button
                 className="absolute right-2 top-2 rounded bg-white px-2 py-2 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                onClick={() => (confirm('Are you sure?') ? dispatch(deleteList(list)) : undefined)}
+                onClick={() => (confirm('Are you sure?') ? dispatch(deleteData(list)) : undefined)}
               >
                 <XMarkIcon className="h-4" />
               </button>
               <input
                 className="w-full text-xl font-medium uppercase text-gray-600"
                 value={list.title}
-                onChange={({ target: { value } }) => dispatch(setList({ ...list, title: value }))}
+                onChange={({ target: { value } }) => dispatch(setData({ ...list, title: value }))}
               />
-              <TodoList items={list.items} onChange={(items) => dispatch(setList({ ...list, items }))} />
+              <TodoList items={list.items} onChange={(items) => dispatch(setData({ ...list, items }))} />
             </div>
           ))}
           <div
@@ -103,7 +107,7 @@ export const TodoNamedLists = () => {
             <button
               type="button"
               className="block h-72 w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              onClick={() => dispatch(setList({ ...newNamedList, position: maxPosition(current.NAMED) + 1 }))}
+              onClick={() => dispatch(setData({ ...newNamedList, position: maxNamedPosition(data) + 1 }))}
             >
               <FolderPlusIcon className="mx-auto h-12 w-12 text-gray-400" />
 

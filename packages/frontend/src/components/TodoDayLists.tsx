@@ -3,19 +3,30 @@ import { fromEpoch, range, toEpoch, toHumanDate, toWeekday } from '../helpers';
 import { TodoList } from './TodoList';
 import classNames from 'classnames';
 import { DayList } from '../store/api';
-import { setList } from '../store/lists.slice';
+import { setData } from '../store/db.slice';
+import { CSSProperties } from 'react';
 
 export const TodoDayLists = () => {
-  const { day, current } = useAppSelector((state) => state.lists);
+  const { day, size } = useAppSelector((state) => state.ui);
+  const { data } = useAppSelector((state) => state.db);
   const dispatch = useAppDispatch();
   const days = range(day.data[0], day.data[1]);
   const today = toEpoch(new Date());
   const listDays: DayList[] = days.map(
-    (position) => current.DAY[position] ?? { type: 'DAY', position, items: [], updatedAt: 0 },
+    (position) => data.DAY[position] ?? { type: 'DAY', position, items: [], updatedAt: 0 },
   );
 
   return (
-    <div className="h-full overflow-hidden bg-white">
+    <div
+      className="h-full overflow-hidden bg-white"
+      style={
+        {
+          '--size': size,
+          '--day-current': day.current - day.data[0],
+          '--day-size': day.data[1] - day.data[0],
+        } as CSSProperties
+      }
+    >
       <dl
         className={classNames(
           'left-[calc(-1*(100%/(1))*var(--day-current))] w-[calc((100%/(1))*var(--day-size))]',
@@ -42,7 +53,7 @@ export const TodoDayLists = () => {
           >
             <dt className="text-sm text-gray-400">{toHumanDate(fromEpoch(list.position))}</dt>
             <dt className="-mt-1 text-xl font-medium uppercase text-gray-600">{toWeekday(fromEpoch(list.position))}</dt>
-            <TodoList items={list.items} onChange={(items) => dispatch(setList({ ...list, items }))} />
+            <TodoList items={list.items} onChange={(items) => dispatch(setData({ ...list, items }))} />
           </div>
         ))}
       </dl>
